@@ -171,50 +171,51 @@ accuracy: 62.8% (MAPE 37.21%, 14-day holdout)`. Term by term:
 | `Confidence band / scenario range` | The spread between the cautious and optimistic forecasts — how uncertain the winning model is about the future, wider when your data is noisier. |
 | `Anomalies` (Isolation Forest) | Individual sales that look statistically unusual across revenue/units/day-of-week/month compared to the rest of your data — found algorithmically, not flagged by hand. |
 
-## Setup
+## Running it locally
 
-### 1. Backend (FastAPI)
+There's no live demo up yet, so for now this is how you run it. It's three
+separate pieces (backend, frontend, and an optional notifications service),
+so it's a few more steps than a typical single-app clone. Backend first:
 
 ```bash
 cd backend
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # fill in SUPABASE_URL / SUPABASE_KEY at minimum
+cp .env.example .env   # add your SUPABASE_URL and SUPABASE_KEY
 uvicorn main:app --reload
 ```
 
-One-time Supabase migration (SQL editor) to store the AI summary — the app
-works without it, it just skips saving `ai_summary`:
+If you want the AI summary feature to actually save, run this once in the
+Supabase SQL editor. Not required — it just gets skipped without it:
 
 ```sql
 alter table reports add column if not exists ai_summary text;
 ```
 
-### 2. Frontend (React)
+Then the frontend:
 
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # VITE_API_URL, defaults to http://127.0.0.1:8000
+cp .env.example .env
 npm run dev
 ```
 
-### 3. Notifications (Node + Nodemailer) — optional
+And notifications, if you care about the "email me when it's ready" step —
+skip this one and everything else still works fine:
 
 ```bash
 cd notifications
 npm install
-cp .env.example .env   # leave SMTP_HOST unset to use a free Ethereal test inbox
+cp .env.example .env   # no real SMTP needed, it fakes an inbox for you
 npm start
 ```
 
-### Try it with sample data
-
-`sample_data/demo_sales.csv` (regenerate with `python scripts/generate_demo_data.py`)
-is ~180 days of synthetic multi-region, multi-product B2B sales with a real
-trend, weekly seasonality, and a few injected anomalies — sign up, upload
-it, and you'll get all three scenario forecasts, backtested accuracy, and
-(if configured) an AI summary and a notification email.
+To try it out, sign up, then upload `sample_data/demo_sales.csv` (fake
+B2B sales data, ~180 days, regenerate it with
+`python scripts/generate_demo_data.py` if you want a different draw). You
+should get all three forecasts, a backtested accuracy score, and if you set
+it up, an AI summary and a notification email.
 
 ## Environment variables
 
@@ -222,21 +223,27 @@ it, and you'll get all three scenario forecasts, backtested accuracy, and
 |---|---|---|---|
 | backend | `SUPABASE_URL`, `SUPABASE_KEY` | yes | Project Settings → API |
 | backend | `CORS_ORIGINS` | no | comma-separated, defaults to `http://localhost:5173` |
-| backend | `GEMINI_API_KEY` | no | free key at aistudio.google.com/apikey; summary is skipped without it |
+| backend | `GEMINI_API_KEY` | no | free key at aistudio.google.com/apikey, summary is skipped without it |
 | backend | `GEMINI_MODEL` | no | defaults to `gemini-2.5-flash` |
 | backend | `NOTIFY_SERVICE_URL`, `NOTIFY_SERVICE_API_KEY` | no | notification is skipped if unreachable |
 | backend | `FRONTEND_URL` | no | used to build the link inside notification emails |
 | frontend | `VITE_API_URL` | no | defaults to `http://127.0.0.1:8000` |
-| notifications | `SMTP_HOST`/`PORT`/`USER`/`PASS`, `FROM_EMAIL` | no | unset → auto Ethereal test inbox |
+| notifications | `SMTP_HOST`/`PORT`/`USER`/`PASS`, `FROM_EMAIL` | no | unset means it uses a free Ethereal test inbox |
 | notifications | `NOTIFY_API_KEY` | no | shared secret with the backend's `NOTIFY_SERVICE_API_KEY` |
 
 ## Security notes
 
-- Every upload/report is scoped to the caller's `company_id` (resolved
-  server-side from the authenticated Supabase user), not just checked
-  against `uploaded_by` — teammates at the same company can see each
-  other's analyses, and a report ID from another company returns 403.
-- `backend/venv` is gitignored; if you're publishing this repo publicly and
-  it was ever committed in an earlier snapshot, scrub it from history
-  (`git filter-repo`) before making the repo public, and rotate any keys
-  that were committed alongside it.
+A couple things worth calling out, since I actually ran into both of these
+while building this:
+
+- Every upload and report is scoped to the caller's company (looked up
+  server-side from their Supabase login, not something the client can
+  fake), not just checked against who uploaded it. Teammates at the same
+  company can see each other's analyses, but a report ID from a different
+  company gets a 403. This wasn't always true — I found and fixed a real
+  bug here where any logged-in user could view any other company's report
+  just by guessing the ID.
+- `backend/venv` is gitignored now. If it was ever committed in an earlier
+  snapshot and you're planning to make this repo public, worth scrubbing
+  it from history first (`git filter-repo`) and rotating any keys that
+  might have been sitting near it.
