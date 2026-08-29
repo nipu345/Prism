@@ -1,0 +1,50 @@
+# Render Blueprint — deploys the backend and notifications service together.
+# In the Render dashboard: New -> Blueprint -> pick this repo -> it reads
+# this file automatically. Env vars marked sync:false are left blank on
+# purpose (secrets), fill them in from the Render dashboard after creation.
+services:
+  - type: web
+    name: prism-backend
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false # set to your Vercel URL, e.g. https://prism-yourname.vercel.app
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: FRONTEND_URL
+        sync: false # same as CORS_ORIGINS, used to build links in emails
+      - key: NOTIFY_SERVICE_URL
+        sync: false # e.g. https://prism-notifications.onrender.com/notify-report
+      - key: NOTIFY_SERVICE_API_KEY
+        sync: false
+
+  - type: web
+    name: prism-notifications
+    env: node
+    rootDir: notifications
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NOTIFY_API_KEY
+        sync: false # must match NOTIFY_SERVICE_API_KEY on prism-backend
+      - key: SMTP_HOST
+        sync: false # leave unset to use a free Ethereal test inbox
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: FROM_EMAIL
+        sync: false
