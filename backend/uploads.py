@@ -122,7 +122,25 @@ async def list_uploads(auth=Depends(get_current_user_and_company)):
             .order("uploaded_at", desc=True)
             .execute()
         )
-        return uploads.data
+
+        # an upload's id is not the same as its report's id, so the
+        # frontend needs the report_id to actually link to results
+        upload_ids = [u["id"] for u in uploads.data]
+        report_by_upload = {}
+        if upload_ids:
+            reports = (
+                supabase.table("reports")
+                .select("id, upload_id, status")
+                .in_("upload_id", upload_ids)
+                .execute()
+            )
+            for r in reports.data:
+                report_by_upload[r["upload_id"]] = {"report_id": r["id"], "report_status": r["status"]}
+
+        return [
+            {**u, **report_by_upload.get(u["id"], {"report_id": None, "report_status": None})}
+            for u in uploads.data
+        ]
 
     except HTTPException:
         raise
