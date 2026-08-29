@@ -115,6 +115,47 @@ Run `pytest` in `backend/` to see this exercised against real
 statsmodels/scipy/scikit-learn fits on deterministic synthetic data
 (risk-ordering, backtest sanity checks, graceful degradation on thin data).
 
+### Meet the models
+
+Four different models are in play — three compete against each other during
+backtesting to forecast revenue, and a fourth runs separately to catch
+anomalies:
+
+**ARIMA (AutoRegressive Integrated Moving Average)** — a decades-old,
+widely used statistical forecasting method. It predicts each day using
+(1) the actual values from a few recent days, (2) a trend-stripping step
+so a steady upward or downward slope doesn't confuse the model, and (3) a
+self-correction step based on how wrong its own recent predictions were.
+Written as `ARIMA(p, d, q)` — `p` = how many past days it looks at, `d` =
+how many times the trend gets stripped out, `q` = how many past errors it
+corrects for. Tends to win when there's real day-to-day momentum in the
+data — today's revenue is genuinely predictable from yesterday's.
+
+**Holt-Winters / Holt Linear Trend (exponential smoothing)** — a "smart
+moving average." A plain average weighs every past day equally; this
+weighs recent days more heavily, and separately tracks whether revenue is
+trending up or down and whether there's a repeating weekly pattern (a dip
+every weekend, for example). Tends to win on data with a clear, steady
+trend and consistent seasonality.
+
+**Log-linear growth curve (`scipy.optimize.curve_fit`)** — assumes revenue
+grows roughly the way compound interest does, and uses numerical
+optimization to find the exact growth rate that best matches your history.
+Tends to win on data with strong, consistent compounding growth and
+comparatively little day-to-day noise.
+
+**Isolation Forest (anomaly detection)** — not a forecaster at all. It's a
+separate machine learning model that looks at every individual sale (not
+daily totals) and isolates the ones that stand apart from the rest based
+on revenue, units sold, day of week, and month. Those are the entries
+flagged as anomalies on the aggressive tab — real outliers found
+algorithmically, not picked out by hand.
+
+Only one of the first three ever gets used for your actual forecast —
+whichever wins the backtest described above — so the model name you see
+on a results screen depends entirely on your data, not on which one
+sounds the most impressive.
+
 ### Decoding a results screen
 
 Every scenario tab shows a line like `Model: ARIMA(2, 0, 2) · Backtested
