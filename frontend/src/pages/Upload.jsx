@@ -47,7 +47,7 @@ export default function Upload() {
       <div className="max-w-2xl mx-auto px-6 py-10">
         <h2 className="text-2xl font-semibold mb-2">New analysis</h2>
         <p className="text-gray-400 mb-8">
-          Upload your company sales data to generate pessimistic, expected, and optimistic revenue forecasts
+          Upload your company sales data to generate cautious, expected, and optimistic revenue forecasts
         </p>
 
         <div className="bg-gray-900 rounded-xl p-6 border border-gray-800 mb-6">

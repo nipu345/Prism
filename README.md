@@ -1,69 +1,93 @@
 # Prism
 
-B2B sales analytics platform: upload historical sales data and get back
-three revenue forecasts — pessimistic, expected, and optimistic — each
-produced by a statistical model that was selected and backtested against
-your own data, plus an AI-written executive summary and email notification
-when the forecast is ready.
+Upload your company's sales history and get back three revenue forecasts —
+cautious, expected, and optimistic — instead of one number you're just
+expected to trust. Each one comes with a real, measured accuracy score,
+plus an AI-written summary of what's driving the outlook.
+
+## Why Prism
+
+Most forecasting tools hand you a single number and expect you to trust it.
+A business owner planning next quarter needs more than that — they need to
+know what happens if things go worse than hoped, what a realistic month
+looks like, and what's achievable if current trends hold. Prism answers all
+three from one upload:
+
+- **A cautious estimate** — what to budget around, so a slow month doesn't catch you off guard
+- **An expected estimate** — the number worth actually planning around
+- **An optimistic estimate** — what's achievable if things keep trending the way they have been
+
+And instead of just asking you to trust those numbers, every forecast comes
+with its own accuracy score — measured by testing the model against your
+*own* recent sales history before it's ever allowed to predict the future.
+If that accuracy is low, you'll see it, and know to treat the range as a
+wider guess rather than a sure thing. That's the difference between a
+forecast you can actually make decisions with and one you're just hoping is
+right.
+
+## How it works, one idea at a time
+
+Each of these is a separate, simple idea — together they're what produces a
+results screen. The precise technical version of all of this is further
+down, in [The technical pipeline](#the-technical-pipeline).
+
+**The three scenarios.** Revenue forecasting is never exact, so instead of
+one guess, Prism produces a range: a lower number, a middle number, and a
+higher number, based on how much the model's own confidence varies. The
+lower end becomes your *conservative* forecast, the middle becomes
+*moderate*, and the higher end becomes *aggressive* — three ways to plan
+for the same underlying prediction.
+
+**Model selection.** There's more than one reasonable way to forecast a
+trend, and no single method wins on every dataset. So instead of
+committing to one, Prism tries a few different forecasting approaches on
+your data and keeps whichever one actually performs best — a step you'd
+otherwise have to do by hand.
+
+**Backtesting.** "Performs best" has to be provable, not assumed. Before
+trusting any model, Prism hides your two most recent weeks of real sales
+data, has each candidate model predict those days blind, then compares the
+guesses to what actually happened. It's a practice exam with a known
+answer key — only the model that scores well on it gets used for your real
+forecast.
+
+**Anomaly detection.** Separately from forecasting, Prism scans every
+individual sale — not just daily totals — for ones that look statistically
+unusual compared to the rest of your data: an unusually large deal, an
+unusually quiet day. These show up as flagged risk factors alongside the
+optimistic forecast, since they're the kind of events that could swing an
+outlook either way.
+
+**AI executive summary.** Once the numbers exist, Prism sends the *summary
+stats* (not your raw data) to Google's Gemini model and asks for a short,
+plain-English paragraph explaining the outlook — the kind of write-up
+you'd otherwise ask an analyst for. This step is optional and never
+required for the forecast itself to work.
+
+**Email notification.** When your report finishes, a small separate
+service emails you a link to it, so you don't have to sit and wait on the
+page.
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    subgraph Client
-        FE["React + Vite\n(frontend/)"]
-    end
+| Piece | What it does |
+|---|---|
+| **Frontend** — React + Vite + Tailwind + Recharts | Auth, CSV/Excel upload, and the results dashboard with per-scenario charts |
+| **Backend** — FastAPI (`backend/`) | Verifies who you are, stores files, and runs the forecasting pipeline |
+| **Forecasting engine** — `backend/agents.py` | Model selection + backtesting + the three scenario forecasts (see below) |
+| **Gemini narrative layer** — `backend/llm.py` | Optional; turns the three forecasts into a plain-English summary |
+| **Notifications** — Node + Express + Nodemailer (`notifications/`) | A separate service the backend calls (best-effort, never blocks analysis) after a report finishes |
+| **Supabase** | Postgres database, auth, and file storage — the one piece Prism doesn't run itself |
 
-    subgraph Backend
-        API["FastAPI\n(backend/)"]
-        AG["agents.py\nARIMA / Holt-Winters / curve_fit\nmodel selection + backtesting"]
-        LLM["llm.py\nGemini narrative wrapper"]
-    end
+The frontend only ever talks to the FastAPI backend; the backend is the
+only thing that talks to Supabase, Gemini, and the notification service.
+None of the optional pieces (Gemini, notifications) can break the core
+forecast — both fail silently and let the analysis complete regardless.
 
-    subgraph External
-        SB[("Supabase\nPostgres + Auth + Storage")]
-        GEM["Google Gemini API"]
-        NOTE["Node + Nodemailer\n(notifications/)"]
-        SMTP[("SMTP / Ethereal")]
-    end
-
-    FE -->|REST, bearer JWT| API
-    API --> SB
-    API --> AG
-    API --> LLM
-    LLM -.optional.-> GEM
-    API -.best-effort.-> NOTE
-    NOTE --> SMTP
-```
-
-- **Frontend** — React 19 + Vite + Tailwind + Recharts. Auth, CSV/Excel upload, and a results dashboard with per-scenario forecast charts.
-- **Backend** — FastAPI. Auth/company scoping via Supabase Auth, file storage via Supabase Storage, structured results in Postgres (`reports` table).
-- **Forecasting engine** (`backend/agents.py`) — see below.
-- **Gemini narrative layer** (`backend/llm.py`) — optional; turns the three structured forecasts into a short executive summary.
-- **Notifications** (`notifications/`) — a separate Node/Express + Nodemailer service the backend calls (best-effort, never blocks the analysis) after a report finishes.
-
-## How the forecasting works
+## The technical pipeline
 
 Uploading a file with `date`, `revenue`, `units_sold`, `product`, `region`
-columns (auto-detected from close matches) runs one pipeline per report.
-
-
-Revenue is added up into one number per day, giving a timeline. Three
-different forecasting methods are then each shown *only* the older part of
-that timeline and asked to predict the most recent two weeks *blind* — the
-model never gets to see those real answers while guessing. Once all three
-have guessed, the real values for those two weeks are revealed and each
-model is graded on how close it got. Whichever method scored best is refit
-on the *entire* timeline (now including those two weeks) to produce the
-actual 30-day forecast, and its own uncertainty range becomes the three
-scenarios: the pessimistic end of that range, the single best-guess number,
-and the optimistic end. Because every model is graded against real held-out
-answers before being trusted, the accuracy number shown on screen is
-measured, not asserted — it changes based on how forecastable your actual
-data is, which is also why it's honest to see a mediocre score on genuinely
-noisy sales data rather than a suspiciously perfect one.
-
-### The pipeline, precisely
+columns (auto-detected from close matches) runs this pipeline per report:
 
 1. **Model selection.** Three candidate forecasters are fit on a holdout
    split of your daily revenue series:
@@ -103,7 +127,7 @@ accuracy: 62.8% (MAPE 37.21%, 14-day holdout)`. Term by term:
 | `holdout` | The most recent N days of your real data, deliberately hidden from the model during the accuracy test — like exam questions the model never studied from. |
 | `MAPE` | Mean Absolute Percentage Error — averaged over every holdout day, `\|predicted − actual\| ÷ actual`. 37% MAPE means the model's guess was off by ~37% of the true value, on average, on days it hadn't seen. |
 | `Backtested accuracy` | Just `100% − MAPE`, shown as a friendlier "how right" framing of the same measured number. |
-| `Confidence band / scenario range` | The spread between the pessimistic and optimistic forecasts — how uncertain the winning model is about the future, wider when your data is noisier. |
+| `Confidence band / scenario range` | The spread between the cautious and optimistic forecasts — how uncertain the winning model is about the future, wider when your data is noisier. |
 | `Anomalies` (Isolation Forest) | Individual sales that look statistically unusual across revenue/units/day-of-week/month compared to the rest of your data — found algorithmically, not flagged by hand. |
 
 ## Setup

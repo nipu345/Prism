@@ -7,7 +7,7 @@ import {
 } from "recharts"
 
 const SCENARIOS = [
-  { key: "conservative", label: "Conservative", subtitle: "Pessimistic case", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", line: "#3B82F6" },
+  { key: "conservative", label: "Conservative", subtitle: "Cautious case", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", line: "#3B82F6" },
   { key: "moderate", label: "Moderate", subtitle: "Expected case", color: "text-violet-400", bg: "bg-violet-500/10 border-violet-500/20", line: "#8B5CF6" },
   { key: "aggressive", label: "Aggressive", subtitle: "Optimistic case", color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20", line: "#F97316" },
 ]
