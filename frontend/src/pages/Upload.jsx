@@ -39,27 +39,27 @@ export default function Upload() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      <nav className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-bg text-ink">
+      <nav className="border-b border-border px-6 py-4 flex items-center justify-between">
         <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate("/dashboard")}>Prism</h1>
       </nav>
 
       <div className="max-w-2xl mx-auto px-6 py-10">
         <h2 className="text-2xl font-semibold mb-2">New analysis</h2>
-        <p className="text-gray-400 mb-8">
+        <p className="text-ink-muted mb-8">
           Upload your company sales data to generate cautious, expected, and optimistic revenue forecasts
         </p>
 
-        <div className="bg-gray-900 rounded-xl p-6 border border-gray-800 mb-6">
-          <p className="text-sm font-medium text-gray-300 mb-3">Expected columns</p>
+        <div className="bg-surface rounded-xl p-6 border border-border mb-6">
+          <p className="text-sm font-medium text-ink-soft mb-3">Expected columns</p>
           <div className="flex flex-wrap gap-2">
             {["date", "revenue", "units_sold", "product", "region"].map(col => (
-              <span key={col} className="bg-gray-800 text-gray-300 text-xs px-3 py-1 rounded-full">
+              <span key={col} className="bg-surface-hover text-ink-soft text-xs font-mono px-3 py-1 rounded-full">
                 {col}
               </span>
             ))}
           </div>
-          <p className="text-xs text-gray-500 mt-3">Column names will be auto-detected if they differ</p>
+          <p className="text-xs text-ink-faint mt-3">Column names will be auto-detected if they differ</p>
         </div>
 
         <div
@@ -68,7 +68,7 @@ export default function Upload() {
           onDrop={handleDrop}
           onClick={() => document.getElementById("fileInput").click()}
           className={`border-2 border-dashed rounded-xl p-16 text-center cursor-pointer transition-colors ${
-            dragging ? "border-violet-500 bg-violet-500/5" : "border-gray-700 hover:border-gray-600"
+            dragging ? "border-accent bg-accent/5" : "border-border-hover hover:border-accent/50"
           }`}
         >
           <input
@@ -80,13 +80,13 @@ export default function Upload() {
           />
           {file ? (
             <div>
-              <p className="text-white font-medium">{file.name}</p>
-              <p className="text-gray-400 text-sm mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+              <p className="text-ink font-medium">{file.name}</p>
+              <p className="text-ink-muted text-sm mt-1 font-mono">{(file.size / 1024).toFixed(1)} KB</p>
             </div>
           ) : (
             <div>
-              <p className="text-gray-300 font-medium">Drop your CSV or Excel file here</p>
-              <p className="text-gray-500 text-sm mt-1">or click to browse</p>
+              <p className="text-ink-soft font-medium">Drop your CSV or Excel file here</p>
+              <p className="text-ink-faint text-sm mt-1">or click to browse</p>
             </div>
           )}
         </div>
@@ -100,13 +100,13 @@ export default function Upload() {
         <button
           onClick={handleSubmit}
           disabled={!file || loading}
-          className="w-full mt-6 bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white font-medium py-3 rounded-lg transition-colors"
+          className="w-full mt-6 bg-accent hover:bg-accent-hover disabled:opacity-40 text-bg font-semibold py-3 rounded-lg transition-colors"
         >
           {loading ? "Running analysis..." : "Run analysis"}
         </button>
 
         {loading && (
-          <p className="text-xs text-gray-500 mt-3 text-center">
+          <p className="text-xs text-ink-faint mt-3 text-center">
             This can take a couple of minutes — we're backtesting several
             forecasting models against your data and picking whichever one
             is actually most accurate, not just running one fixed formula.

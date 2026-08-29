@@ -6,17 +6,27 @@ import {
   Tooltip, ResponsiveContainer, LineChart, Line
 } from "recharts"
 
+// validated categorical set (dataviz-skill validator: CVD delta-E >= 8, dark
+// lightness band, >=3:1 contrast on --color-bg) — keep these three hex
+// values in sync with the --color-conservative/moderate/aggressive tokens
+// in index.css, Recharts needs literal colors, not Tailwind classes
 const SCENARIOS = [
-  { key: "conservative", label: "Conservative", subtitle: "Cautious case", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", line: "#3B82F6" },
-  { key: "moderate", label: "Moderate", subtitle: "Expected case", color: "text-violet-400", bg: "bg-violet-500/10 border-violet-500/20", line: "#8B5CF6" },
-  { key: "aggressive", label: "Aggressive", subtitle: "Optimistic case", color: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20", line: "#F97316" },
+  { key: "conservative", label: "Conservative", subtitle: "Cautious case", color: "text-conservative", bg: "bg-conservative/10 border-conservative/20", line: "#199e70" },
+  { key: "moderate", label: "Moderate", subtitle: "Expected case", color: "text-moderate", bg: "bg-moderate/10 border-moderate/20", line: "#3987e5" },
+  { key: "aggressive", label: "Aggressive", subtitle: "Optimistic case", color: "text-aggressive", bg: "bg-aggressive/10 border-aggressive/20", line: "#d95926" },
 ]
+
+const CHART_THEME = {
+  grid: "#1f2733",
+  tick: { fill: "#8b98a8", fontSize: 12, fontFamily: "JetBrains Mono, monospace" },
+  tooltip: { backgroundColor: "#10151d", border: "1px solid #1f2733", borderRadius: "8px", fontFamily: "JetBrains Mono, monospace" },
+}
 
 function StatTile({ label, value }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <p className="text-gray-400 text-sm">{label}</p>
-      <p className="text-2xl font-semibold text-white mt-1">{value}</p>
+    <div className="bg-surface border border-border rounded-xl p-5">
+      <p className="text-ink-muted text-sm">{label}</p>
+      <p className="text-2xl font-semibold text-ink mt-1 font-mono">{value}</p>
     </div>
   )
 }
@@ -24,10 +34,10 @@ function StatTile({ label, value }) {
 function ModelCaption({ agent }) {
   const mape = agent.backtest?.mape
   return (
-    <p className="text-xs text-gray-500 mt-2">
-      Model: <span className="text-gray-400">{agent.model_used}</span>
+    <p className="text-xs text-ink-faint mt-2 font-mono">
+      Model: <span className="text-ink-muted">{agent.model_used}</span>
       {mape !== undefined && mape !== null && (
-        <> · Backtested accuracy: <span className="text-gray-400">{(100 - mape).toFixed(1)}%</span> (MAPE {mape}%, {agent.backtest?.holdout_days}-day holdout)</>
+        <> · Backtested accuracy: <span className="text-ink-muted">{(100 - mape).toFixed(1)}%</span> (MAPE {mape}%, {agent.backtest?.holdout_days}-day holdout)</>
       )}
     </p>
   )
@@ -35,14 +45,14 @@ function ModelCaption({ agent }) {
 
 function ForecastChart({ agent, color }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-      <h4 className="text-sm font-medium text-gray-400 mb-4">{agent.forecast_days}-day revenue forecast</h4>
+    <div className="bg-surface border border-border rounded-xl p-6">
+      <h4 className="text-sm font-medium text-ink-muted mb-4">{agent.forecast_days}-day revenue forecast</h4>
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={agent.forecast}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-          <XAxis dataKey="day" tick={{ fill: "#9CA3AF", fontSize: 12 }} />
-          <YAxis tick={{ fill: "#9CA3AF", fontSize: 12 }} />
-          <Tooltip contentStyle={{ backgroundColor: "#111827", border: "1px solid #374151", borderRadius: "8px" }} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.grid} />
+          <XAxis dataKey="day" tick={CHART_THEME.tick} />
+          <YAxis tick={CHART_THEME.tick} />
+          <Tooltip contentStyle={CHART_THEME.tooltip} />
           <Line type="monotone" dataKey="predicted_revenue" stroke={color} strokeWidth={2} dot={false} />
         </LineChart>
       </ResponsiveContainer>
@@ -69,14 +79,14 @@ export default function Results() {
   }, [reportId])
 
   if (loading) return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <p className="text-gray-400">Loading results...</p>
+    <div className="min-h-screen bg-bg flex items-center justify-center">
+      <p className="text-ink-muted">Loading results...</p>
     </div>
   )
 
   if (!report) return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <p className="text-gray-400">Report not found</p>
+    <div className="min-h-screen bg-bg flex items-center justify-center">
+      <p className="text-ink-muted">Report not found</p>
     </div>
   )
 
@@ -92,22 +102,22 @@ export default function Results() {
     : []
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      <nav className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-bg text-ink">
+      <nav className="border-b border-border px-6 py-4 flex items-center justify-between">
         <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate("/dashboard")}>Prism</h1>
-        <button onClick={() => navigate("/dashboard")} className="text-gray-400 hover:text-white text-sm transition-colors">
+        <button onClick={() => navigate("/dashboard")} className="text-ink-muted hover:text-ink text-sm transition-colors">
           ← Back to dashboard
         </button>
       </nav>
 
       <div className="max-w-5xl mx-auto px-6 py-10">
         <h2 className="text-2xl font-semibold mb-2">Analysis results</h2>
-        <p className="text-gray-400 mb-6">Three risk scenarios, each backed by a backtested forecasting model</p>
+        <p className="text-ink-muted mb-6">Three risk scenarios, each backed by a backtested forecasting model</p>
 
         {report.ai_summary && (
-          <div className="bg-gradient-to-br from-violet-500/10 to-blue-500/10 border border-violet-500/20 rounded-xl p-6 mb-8">
-            <p className="text-xs font-semibold text-violet-400 uppercase tracking-wide mb-2">AI executive summary</p>
-            <p className="text-gray-200 leading-relaxed">{report.ai_summary}</p>
+          <div className="bg-gradient-to-br from-accent/10 to-moderate/10 border border-accent/20 rounded-xl p-6 mb-8">
+            <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">AI executive summary</p>
+            <p className="text-ink-soft leading-relaxed">{report.ai_summary}</p>
           </div>
         )}
 
@@ -120,7 +130,7 @@ export default function Results() {
               className={`px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
                 activeScenario === s.key
                   ? s.bg + " " + s.color
-                  : "border-gray-700 text-gray-400 hover:border-gray-600"
+                  : "border-border-hover text-ink-muted hover:border-accent/40"
               }`}
             >
               {s.label}
@@ -130,16 +140,16 @@ export default function Results() {
         </div>
 
         {!agent ? (
-          <div className="text-gray-400">No data for this scenario.</div>
+          <div className="text-ink-muted">No data for this scenario.</div>
         ) : agent.error ? (
           <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-xl p-5">
             {agent.error}
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div className="bg-surface border border-border rounded-xl p-6">
               <h3 className={`text-lg font-semibold mb-1 ${active.color}`}>{agent.scenario || active.subtitle}</h3>
-              <p className="text-gray-300">{agent.insight}</p>
+              <p className="text-ink-soft">{agent.insight}</p>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -158,28 +168,28 @@ export default function Results() {
 
             {activeScenario === "conservative" && (
               <div className="grid grid-cols-2 gap-6">
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                  <h4 className="text-sm font-medium text-gray-400 mb-4">Revenue by region</h4>
+                <div className="bg-surface border border-border rounded-xl p-6">
+                  <h4 className="text-sm font-medium text-ink-muted mb-4">Revenue by region</h4>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={regionData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis dataKey="region" tick={{ fill: "#9CA3AF", fontSize: 12 }} />
-                      <YAxis tick={{ fill: "#9CA3AF", fontSize: 12 }} />
-                      <Tooltip contentStyle={{ backgroundColor: "#111827", border: "1px solid #374151", borderRadius: "8px" }} />
-                      <Bar dataKey="revenue" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.grid} />
+                      <XAxis dataKey="region" tick={CHART_THEME.tick} />
+                      <YAxis tick={CHART_THEME.tick} />
+                      <Tooltip contentStyle={CHART_THEME.tooltip} />
+                      <Bar dataKey="revenue" fill="#199e70" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
 
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                  <h4 className="text-sm font-medium text-gray-400 mb-4">Revenue by product</h4>
+                <div className="bg-surface border border-border rounded-xl p-6">
+                  <h4 className="text-sm font-medium text-ink-muted mb-4">Revenue by product</h4>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={productData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis dataKey="product" tick={{ fill: "#9CA3AF", fontSize: 12 }} />
-                      <YAxis tick={{ fill: "#9CA3AF", fontSize: 12 }} />
-                      <Tooltip contentStyle={{ backgroundColor: "#111827", border: "1px solid #374151", borderRadius: "8px" }} />
-                      <Bar dataKey="revenue" fill="#3B82F6" radius={[4, 4, 0, 0]} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.grid} />
+                      <XAxis dataKey="product" tick={CHART_THEME.tick} />
+                      <YAxis tick={CHART_THEME.tick} />
+                      <Tooltip contentStyle={CHART_THEME.tooltip} />
+                      <Bar dataKey="revenue" fill="#199e70" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -195,18 +205,18 @@ export default function Results() {
                 </div>
 
                 {agent.anomalies?.length > 0 && (
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h4 className="text-sm font-medium text-gray-400 mb-4">Detected anomalies (risk factors)</h4>
+                  <div className="bg-surface border border-border rounded-xl p-6">
+                    <h4 className="text-sm font-medium text-ink-muted mb-4">Detected anomalies (risk factors)</h4>
                     <div className="space-y-3">
                       {agent.anomalies.map((a, i) => (
-                        <div key={i} className="flex items-center justify-between bg-gray-800 rounded-lg px-4 py-3">
+                        <div key={i} className="flex items-center justify-between bg-surface-hover rounded-lg px-4 py-3">
                           <div>
-                            <p className="text-white text-sm font-medium">{a.date}</p>
-                            <p className="text-gray-400 text-xs">{a.product} · {a.region}</p>
+                            <p className="text-ink text-sm font-medium">{a.date}</p>
+                            <p className="text-ink-muted text-xs">{a.product} · {a.region}</p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-white text-sm">${a.revenue?.toLocaleString()}</p>
-                            <p className="text-gray-400 text-xs">{a.units_sold} units</p>
+                          <div className="text-right font-mono">
+                            <p className="text-ink text-sm">${a.revenue?.toLocaleString()}</p>
+                            <p className="text-ink-muted text-xs">{a.units_sold} units</p>
                           </div>
                         </div>
                       ))}
@@ -215,11 +225,11 @@ export default function Results() {
                 )}
 
                 {agent.underperforming_regions?.length > 0 && (
-                  <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-                    <h4 className="text-sm font-medium text-gray-400 mb-3">Underperforming regions</h4>
+                  <div className="bg-surface border border-border rounded-xl p-6">
+                    <h4 className="text-sm font-medium text-ink-muted mb-3">Underperforming regions</h4>
                     <div className="flex gap-2 flex-wrap">
                       {agent.underperforming_regions.map(r => (
-                        <span key={r} className="bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm px-3 py-1 rounded-full">
+                        <span key={r} className="bg-aggressive/10 border border-aggressive/20 text-aggressive text-sm px-3 py-1 rounded-full">
                           {r}
                         </span>
                       ))}
