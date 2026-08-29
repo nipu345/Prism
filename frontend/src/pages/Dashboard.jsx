@@ -72,12 +72,16 @@ export default function Dashboard() {
                   <p className="font-medium text-white">{upload.filename}</p>
                   <p className="text-sm text-gray-400 mt-1">{upload.row_count} rows · {new Date(upload.uploaded_at).toLocaleDateString()}</p>
                 </div>
-                <button
-                  onClick={() => navigate(`/results/${upload.id}`)}
-                  className="text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
-                >
-                  View results →
-                </button>
+                {upload.report_id ? (
+                  <button
+                    onClick={() => navigate(`/results/${upload.report_id}`)}
+                    className="text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
+                  >
+                    View results →
+                  </button>
+                ) : (
+                  <span className="text-gray-600 text-sm">No report yet</span>
+                )}
               </div>
             ))}
           </div>
