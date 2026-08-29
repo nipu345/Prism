@@ -56,11 +56,11 @@ class GeminiNarrator:
         aggressive = agent_results.get("aggressive", {})
         return (
             "You are a sales analytics assistant. Below are three revenue forecasts for the same "
-            "company - pessimistic, expected, and optimistic 30-day scenarios - produced by statistical "
+            "company - cautious, expected, and optimistic 30-day scenarios - produced by statistical "
             "forecasting models. Write a concise executive summary (max 120 words, plain prose, no markdown "
             "headers or bullet symbols) covering: (1) the overall outlook, (2) what drives the spread "
             "between the scenarios, and (3) one concrete, actionable recommendation.\n\n"
-            f"Pessimistic (conservative): ${conservative.get('forecasted_total_revenue')} over "
+            f"Cautious (conservative): ${conservative.get('forecasted_total_revenue')} over "
             f"{conservative.get('forecast_days')} days. {conservative.get('insight', '')}\n"
             f"Expected (moderate): ${moderate.get('forecasted_total_revenue')} over "
             f"{moderate.get('forecast_days')} days. {moderate.get('insight', '')}\n"

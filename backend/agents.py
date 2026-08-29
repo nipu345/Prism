@@ -10,7 +10,7 @@ backtesting pipeline:
                              produce conservative / moderate / aggressive
                              revenue projections from its confidence band
 
-Conservative = lower-bound (pessimistic) forecast, Moderate = point
+Conservative = lower-bound (cautious) forecast, Moderate = point
 (expected) forecast, Aggressive = upper-bound (optimistic) forecast —
 plus each agent keeps its own supporting analysis (region/product
 breakdown for conservative, anomaly detection for aggressive).
@@ -254,7 +254,7 @@ def _build_conservative(df: pd.DataFrame, series: pd.Series, forecast: dict) -> 
 
     return {
         "agent": "conservative",
-        "scenario": "Pessimistic case — lower-bound revenue projection",
+        "scenario": "Cautious case — lower-bound revenue projection",
         "trend": trend,
         "slope": round(slope, 2),
         "r_squared": round(r_value ** 2, 3),
@@ -270,7 +270,7 @@ def _build_conservative(df: pd.DataFrame, series: pd.Series, forecast: dict) -> 
         "backtest": forecast["backtest"],
         "insight": (
             f"Revenue shows a {trend} trend (R²={r_value**2:.2f} against a linear baseline). "
-            f"Even in a pessimistic scenario, we project ${total:,.2f} over the next {FORECAST_HORIZON} days "
+            f"Even in a cautious scenario, we project ${total:,.2f} over the next {FORECAST_HORIZON} days "
             f"using {forecast['model_used']} (backtested MAPE {_fmt_pct(mape)})."
         ),
     }
