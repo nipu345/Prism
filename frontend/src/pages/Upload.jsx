@@ -104,6 +104,14 @@ export default function Upload() {
         >
           {loading ? "Running analysis..." : "Run analysis"}
         </button>
+
+        {loading && (
+          <p className="text-xs text-gray-500 mt-3 text-center">
+            This can take a couple of minutes — we're backtesting several
+            forecasting models against your data and picking whichever one
+            is actually most accurate, not just running one fixed formula.
+          </p>
+        )}
       </div>
     </div>
   )
