@@ -10,6 +10,7 @@ Fails soft everywhere: no API key, a timeout, or a bad response simply
 means no summary is produced — it never blocks or fails the analysis.
 """
 
+import json
 import httpx
 import config
 
@@ -48,6 +49,74 @@ class GeminiNarrator:
             return text or None
         except Exception:
             return None
+
+    def explain_scenarios(self, agent_results: dict) -> dict:
+        """Return {scenario_key: plain-English 1-2 sentence translation} for
+        each of conservative/moderate/aggressive — decodes the jargon in
+        that scenario's own `insight` sentence (model name, ARIMA order,
+        MAPE, etc.) into everyday language for someone new to forecasting.
+        Fails soft -> {} on no key, timeout, or a bad/unparseable response."""
+        if not self.enabled:
+            return {}
+        scenarios = {
+            key: agent_results[key]
+            for key in ("conservative", "moderate", "aggressive")
+            if agent_results.get(key) and not agent_results[key].get("error")
+        }
+        if not scenarios:
+            return {}
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
+            response = httpx.post(
+                url,
+                params={"key": self.api_key},
+                json={
+                    "contents": [{"parts": [{"text": self._build_explain_prompt(scenarios)}]}],
+                    "generationConfig": {
+                        "temperature": 0.3,
+                        "maxOutputTokens": 500,
+                        "responseMimeType": "application/json",
+                    },
+                },
+                timeout=self.timeout,
+            )
+            response.raise_for_status()
+            candidates = response.json().get("candidates") or []
+            if not candidates:
+                return {}
+            parts = candidates[0].get("content", {}).get("parts", [])
+            text = "".join(part.get("text", "") for part in parts).strip()
+            parsed = json.loads(text)
+            return {
+                key: value for key, value in parsed.items()
+                if key in scenarios and isinstance(value, str) and value.strip()
+            }
+        except Exception:
+            return {}
+
+    @staticmethod
+    def _build_explain_prompt(scenarios: dict) -> str:
+        lines = [f'  "{key}": "{agent.get("insight", "")}"' for key, agent in scenarios.items()]
+        joined = ",\n".join(lines)
+        keys = ", ".join(scenarios.keys())
+        return (
+            "You explain statistical forecasting results to business users who are new "
+            "to data science, not to other data scientists. Below is a JSON object — "
+            "each key is a forecast scenario, each value is a technical sentence "
+            "describing that scenario's result. For each one, write a 1-2 sentence "
+            "plain-English translation of its technical sentence: same meaning, but no "
+            "jargon left unexplained. Specifically: if it names a model like "
+            "'ARIMA(2, 0, 2)', briefly say in plain words what that kind of model does "
+            "and what those numbers mean (how many recent days it looks at, whether it "
+            "needed to strip out a trend first, how many of its own past errors it "
+            "corrects for). If it mentions MAPE, explain it as the average percent the "
+            "model's guesses were off by on real days it hadn't seen. Keep a confident, "
+            "professional tone - accessible, not childish or over-explained.\n\n"
+            f"Respond with ONLY a JSON object with exactly these keys ({keys}), each "
+            "mapped to your plain-English explanation string, and nothing else "
+            "(no markdown fences, no extra keys).\n\n"
+            f"{{\n{joined}\n}}"
+        )
 
     @staticmethod
     def _build_prompt(agent_results: dict) -> str:

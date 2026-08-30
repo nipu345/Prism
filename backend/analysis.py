@@ -41,6 +41,14 @@ async def analyze(upload_id: str, auth=Depends(get_current_user_and_company)):
         results = run_all_agents(df)
         ai_summary = narrator.summarize(results)
 
+        # per-scenario plain-English translation of each agent's technical
+        # insight sentence (model name, ARIMA order, MAPE, etc. decoded) —
+        # merges straight into the same dicts that get saved below, so no
+        # separate DB column is needed
+        plain_english = narrator.explain_scenarios(results)
+        for key, explanation in plain_english.items():
+            results[key]["plain_english"] = explanation
+
         update_payload = {
             "conservative": results["conservative"],
             "moderate": results["moderate"],
