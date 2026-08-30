@@ -13,8 +13,7 @@ all three forecasts for yourself.
 
 The backend runs on Render's free tier, which spins down after 15 minutes
 with no traffic. If it's been idle, the first request (usually sign-up)
-can take 30-60 seconds to wake back up — not a bug, just what free hosting
-costs. Everything's instant again once it's warm.
+can take 30-60 seconds to wake back up. Everything's instant again once it's warm.
 
 ## Why Prism
 
