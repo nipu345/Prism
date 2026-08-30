@@ -17,9 +17,9 @@ const SCENARIOS = [
 ]
 
 const CHART_THEME = {
-  grid: "#1f2733",
-  tick: { fill: "#8b98a8", fontSize: 12, fontFamily: "JetBrains Mono, monospace" },
-  tooltip: { backgroundColor: "#10151d", border: "1px solid #1f2733", borderRadius: "8px", fontFamily: "JetBrains Mono, monospace" },
+  grid: "#232a42",
+  tick: { fill: "#a39d8f", fontSize: 12, fontFamily: "JetBrains Mono, monospace" },
+  tooltip: { backgroundColor: "#12172a", border: "1px solid #232a42", borderRadius: "8px", fontFamily: "JetBrains Mono, monospace" },
 }
 
 function StatTile({ label, value }) {

@@ -5,21 +5,21 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   /* surfaces */
-  --color-bg: #0a0e14;
-  --color-surface: #10151d;
-  --color-surface-hover: #141b25;
-  --color-border: #1f2733;
-  --color-border-hover: #2a3441;
+  --color-bg: #0a0e1a;
+  --color-surface: #12172a;
+  --color-surface-hover: #171d33;
+  --color-border: #232a42;
+  --color-border-hover: #2e3752;
 
   /* text */
-  --color-ink: #e6edf3;
-  --color-ink-soft: #c7d1db;
-  --color-ink-muted: #8b98a8;
-  --color-ink-faint: #5b6572;
+  --color-ink: #f4f1ea;
+  --color-ink-soft: #d9d4c8;
+  --color-ink-muted: #a39d8f;
+  --color-ink-faint: #6b6658;
 
   /* brand accent */
-  --color-accent: #22d3ee;
-  --color-accent-hover: #06b6d4;
+  --color-accent: #c9a13b;
+  --color-accent-hover: #b3872a;
 
   /* scenario identity — validated categorical set (CVD delta-E >= 8, dark
      lightness band, >=3:1 contrast on --color-bg via dataviz skill validator) */
