@@ -5,6 +5,17 @@ cautious, expected, and optimistic — instead of one number you're just
 expected to trust. Each one comes with a real, measured accuracy score,
 plus an AI-written summary of what's driving the outlook.
 
+## Try it live
+
+**[prism-olive-eta.vercel.app](https://prism-olive-eta.vercel.app)** — sign
+up, upload `sample_data/demo_sales.csv` (or your own sales data), and see
+all three forecasts for yourself.
+
+The backend runs on Render's free tier, which spins down after 15 minutes
+with no traffic. If it's been idle, the first request (usually sign-up)
+can take 30-60 seconds to wake back up — not a bug, just what free hosting
+costs. Everything's instant again once it's warm.
+
 ## Why Prism
 
 Most forecasting tools hand you a single number and expect you to trust it.
@@ -83,6 +94,10 @@ The frontend only ever talks to the FastAPI backend; the backend is the
 only thing that talks to Supabase, Gemini, and the notification service.
 None of the optional pieces (Gemini, notifications) can break the core
 forecast — both fail silently and let the analysis complete regardless.
+
+**Hosting:** frontend on Vercel, backend (and notifications, if deployed)
+on Render — both free-tier, both auto-deploy from `main` on every push. See
+`render.yaml` and `frontend/vercel.json`.
 
 ## The technical pipeline
 
@@ -173,9 +188,11 @@ accuracy: 62.8% (MAPE 37.21%, 14-day holdout)`. Term by term:
 
 ## Running it locally
 
-There's no live demo up yet, so for now this is how you run it. It's three
-separate pieces (backend, frontend, and an optional notifications service),
-so it's a few more steps than a typical single-app clone. Backend first:
+The live version above is the fastest way to try it, but here's how to run
+it yourself if you want to read the code, make changes, or just poke at it
+locally. It's three separate pieces (backend, frontend, and an optional
+notifications service), so it's a few more steps than a typical single-app
+clone. Backend first:
 
 ```bash
 cd backend
@@ -232,9 +249,6 @@ it up, an AI summary and a notification email.
 | notifications | `NOTIFY_API_KEY` | no | shared secret with the backend's `NOTIFY_SERVICE_API_KEY` |
 
 ## Security notes
-
-A couple things worth calling out, since I actually ran into both of these
-while building this:
 
 - Every upload and report is scoped to the caller's company (looked up
   server-side from their Supabase login, not something the client can
