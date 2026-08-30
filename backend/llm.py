@@ -11,8 +11,11 @@ means no summary is produced — it never blocks or fails the analysis.
 """
 
 import json
+import logging
 import httpx
 import config
+
+logger = logging.getLogger("prism.llm")
 
 
 class GeminiNarrator:
@@ -25,30 +28,58 @@ class GeminiNarrator:
     def enabled(self) -> bool:
         return bool(self.api_key)
 
+    def _call(self, prompt: str, generation_config: dict, label: str):
+        """POST to generateContent and return the response text, or None.
+        Every failure mode is logged with enough detail to diagnose from
+        Render's logs (bad key, wrong model name, quota, malformed JSON)
+        without ever raising — callers always fail soft."""
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
+        try:
+            response = httpx.post(
+                url,
+                params={"key": self.api_key},
+                json={"contents": [{"parts": [{"text": prompt}]}], "generationConfig": generation_config},
+                timeout=self.timeout,
+            )
+        except httpx.RequestError as e:
+            logger.warning("Gemini %s: request failed (network/timeout): %s", label, e)
+            return None
+
+        if response.status_code >= 400:
+            logger.warning(
+                "Gemini %s: HTTP %s from model=%r — %s",
+                label, response.status_code, self.model, response.text[:500],
+            )
+            return None
+
+        try:
+            candidates = response.json().get("candidates") or []
+        except Exception as e:
+            logger.warning("Gemini %s: response wasn't valid JSON: %s — body: %s", label, e, response.text[:500])
+            return None
+
+        if not candidates:
+            logger.warning("Gemini %s: no candidates in response — body: %s", label, response.text[:500])
+            return None
+
+        finish_reason = candidates[0].get("finishReason")
+        parts = candidates[0].get("content", {}).get("parts", [])
+        text = "".join(part.get("text", "") for part in parts).strip()
+        if not text:
+            logger.warning("Gemini %s: empty text (finishReason=%r) — candidate: %s", label, finish_reason, candidates[0])
+            return None
+        return text
+
     def summarize(self, agent_results: dict):
         """Return a short executive summary string, or None if unavailable."""
         if not self.enabled:
             return None
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
-            response = httpx.post(
-                url,
-                params={"key": self.api_key},
-                json={
-                    "contents": [{"parts": [{"text": self._build_prompt(agent_results)}]}],
-                    "generationConfig": {"temperature": 0.4, "maxOutputTokens": 400},
-                },
-                timeout=self.timeout,
-            )
-            response.raise_for_status()
-            candidates = response.json().get("candidates") or []
-            if not candidates:
-                return None
-            parts = candidates[0].get("content", {}).get("parts", [])
-            text = "".join(part.get("text", "") for part in parts).strip()
-            return text or None
-        except Exception:
-            return None
+        text = self._call(
+            self._build_prompt(agent_results),
+            {"temperature": 0.4, "maxOutputTokens": 400},
+            label="summarize",
+        )
+        return text or None
 
     def explain_scenarios(self, agent_results: dict) -> dict:
         """Return {scenario_key: plain-English 1-2 sentence translation} for
@@ -65,34 +96,22 @@ class GeminiNarrator:
         }
         if not scenarios:
             return {}
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent"
-            response = httpx.post(
-                url,
-                params={"key": self.api_key},
-                json={
-                    "contents": [{"parts": [{"text": self._build_explain_prompt(scenarios)}]}],
-                    "generationConfig": {
-                        "temperature": 0.3,
-                        "maxOutputTokens": 500,
-                        "responseMimeType": "application/json",
-                    },
-                },
-                timeout=self.timeout,
-            )
-            response.raise_for_status()
-            candidates = response.json().get("candidates") or []
-            if not candidates:
-                return {}
-            parts = candidates[0].get("content", {}).get("parts", [])
-            text = "".join(part.get("text", "") for part in parts).strip()
-            parsed = json.loads(text)
-            return {
-                key: value for key, value in parsed.items()
-                if key in scenarios and isinstance(value, str) and value.strip()
-            }
-        except Exception:
+        text = self._call(
+            self._build_explain_prompt(scenarios),
+            {"temperature": 0.3, "maxOutputTokens": 500, "responseMimeType": "application/json"},
+            label="explain_scenarios",
+        )
+        if not text:
             return {}
+        try:
+            parsed = json.loads(text)
+        except Exception as e:
+            logger.warning("Gemini explain_scenarios: couldn't parse JSON out of model output: %s — text: %s", e, text[:500])
+            return {}
+        return {
+            key: value for key, value in parsed.items()
+            if key in scenarios and isinstance(value, str) and value.strip()
+        }
 
     @staticmethod
     def _build_explain_prompt(scenarios: dict) -> str:
