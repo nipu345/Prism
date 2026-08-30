@@ -209,14 +209,10 @@ alter table reports add column if not exists ai_summary text;
 
 ## Security notes
 
-- Every upload and report is scoped to the caller's company (looked up
-  server-side from their Supabase login, not something the client can
-  fake), not just checked against who uploaded it. Teammates at the same
-  company can see each other's analyses, but a report ID from a different
-  company gets a 403. This wasn't always true — I found and fixed a real
-  bug here where any logged-in user could view any other company's report
-  just by guessing the ID.
-- `backend/venv` is gitignored now. If it was ever committed in an earlier
-  snapshot and you're planning to make this repo public, worth scrubbing
-  it from history first (`git filter-repo`) and rotating any keys that
-  might have been sitting near it.
+Every upload and report is scoped server-side to the caller's company,
+resolved from their authenticated Supabase session rather than a
+client-supplied value. Teammates within the same company can view each
+other's analyses; a report ID belonging to a different company returns a
+403. This scoping was added specifically to close an authorization gap in
+which any authenticated user could retrieve another company's report by
+supplying its ID directly.
