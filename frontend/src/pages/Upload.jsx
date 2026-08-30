@@ -50,11 +50,11 @@ export default function Upload() {
           Upload your company sales data to generate cautious, expected, and optimistic revenue forecasts
         </p>
 
-        <div className="bg-surface rounded-xl p-6 border border-border mb-6">
+        <div className="bg-surface rounded-none p-6 border-2 border-border mb-6">
           <p className="text-sm font-medium text-ink-soft mb-3">Expected columns</p>
           <div className="flex flex-wrap gap-2">
             {["date", "revenue", "units_sold", "product", "region"].map(col => (
-              <span key={col} className="bg-surface-hover text-ink-soft text-xs font-mono px-3 py-1 rounded-full">
+              <span key={col} className="bg-surface-hover text-ink-soft text-xs font-mono px-3 py-1 rounded-none">
                 {col}
               </span>
             ))}
@@ -67,7 +67,7 @@ export default function Upload() {
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
           onClick={() => document.getElementById("fileInput").click()}
-          className={`border-2 border-dashed rounded-xl p-16 text-center cursor-pointer transition-colors ${
+          className={`border-2 border-dashed rounded-none p-16 text-center cursor-pointer transition-colors ${
             dragging ? "border-accent bg-accent/5" : "border-border-hover hover:border-accent/50"
           }`}
         >
@@ -92,7 +92,7 @@ export default function Upload() {
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg p-3 mt-4 text-sm">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-none p-3 mt-4 text-sm">
             {error}
           </div>
         )}
@@ -100,7 +100,7 @@ export default function Upload() {
         <button
           onClick={handleSubmit}
           disabled={!file || loading}
-          className="w-full mt-6 bg-accent hover:bg-accent-hover disabled:opacity-40 text-bg font-semibold py-3 rounded-lg transition-colors"
+          className="w-full mt-6 bg-accent hover:bg-accent-hover disabled:opacity-40 text-bg font-semibold py-3 rounded-none transition-colors"
         >
           {loading ? "Running analysis..." : "Run analysis"}
         </button>

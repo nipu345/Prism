@@ -14,7 +14,7 @@ function ModelsSidebar() {
   return (
     <aside className="w-72 shrink-0 hidden lg:block">
       <div className="sticky top-10 space-y-6">
-        <div className="bg-surface border border-border rounded-xl p-5">
+        <div className="bg-surface border-2 border-border rounded-none p-5">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">How Prism forecasts</p>
           <div className="space-y-4">
             {MODELS.map(m => (
@@ -30,9 +30,9 @@ function ModelsSidebar() {
           </p>
         </div>
 
-        <div className="bg-surface border border-border rounded-xl p-5">
+        <div className="bg-surface border-2 border-border rounded-none p-5">
           <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-3">Sample output, decoded</p>
-          <div className="bg-bg border border-border rounded-lg p-3 font-mono text-xs text-ink-soft leading-relaxed">
+          <div className="bg-bg border border-border rounded-none p-3 font-mono text-xs text-ink-soft leading-relaxed">
             Model: ARIMA(2, 0, 2)<br />
             Backtested accuracy: 62.8%<br />
             (MAPE 37.21%, 14-day holdout)
@@ -77,7 +77,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/upload")}
-            className="bg-accent hover:bg-accent-hover text-bg text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+            className="bg-accent hover:bg-accent-hover text-bg text-sm font-semibold px-4 py-2 rounded-none transition-colors"
           >
             New analysis
           </button>
@@ -100,11 +100,11 @@ export default function Dashboard() {
           {loading ? (
             <div className="text-ink-muted">Loading...</div>
           ) : uploads.length === 0 ? (
-            <div className="border border-dashed border-border-hover rounded-2xl p-16 text-center">
+            <div className="border border-dashed border-border-hover rounded-none p-16 text-center">
               <p className="text-ink-muted text-lg mb-4">No analyses yet</p>
               <button
                 onClick={() => navigate("/upload")}
-                className="bg-accent hover:bg-accent-hover text-bg font-semibold px-6 py-2.5 rounded-lg transition-colors"
+                className="bg-accent hover:bg-accent-hover text-bg font-semibold px-6 py-2.5 rounded-none transition-colors"
               >
                 Upload your first file
               </button>
@@ -114,7 +114,7 @@ export default function Dashboard() {
               {uploads.map(upload => (
                 <div
                   key={upload.id}
-                  className="bg-surface border border-border rounded-xl p-5 flex items-center justify-between hover:border-border-hover transition-colors"
+                  className="bg-surface border-2 border-border rounded-none p-5 flex items-center justify-between hover:border-border-hover transition-colors"
                 >
                   <div>
                     <p className="font-medium text-ink">{upload.filename}</p>

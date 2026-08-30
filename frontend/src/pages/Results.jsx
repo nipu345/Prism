@@ -19,12 +19,12 @@ const SCENARIOS = [
 const CHART_THEME = {
   grid: "#232a42",
   tick: { fill: "#a39d8f", fontSize: 12, fontFamily: "JetBrains Mono, monospace" },
-  tooltip: { backgroundColor: "#12172a", border: "1px solid #232a42", borderRadius: "8px", fontFamily: "JetBrains Mono, monospace" },
+  tooltip: { backgroundColor: "#12172a", border: "2px solid #232a42", borderRadius: "0px", fontFamily: "JetBrains Mono, monospace" },
 }
 
 function StatTile({ label, value }) {
   return (
-    <div className="bg-surface border border-border rounded-xl p-5">
+    <div className="bg-surface border-2 border-border rounded-none p-5">
       <p className="text-ink-muted text-sm">{label}</p>
       <p className="text-2xl font-semibold text-ink mt-1 font-mono">{value}</p>
     </div>
@@ -45,7 +45,7 @@ function ModelCaption({ agent }) {
 
 function ForecastChart({ agent, color }) {
   return (
-    <div className="bg-surface border border-border rounded-xl p-6">
+    <div className="bg-surface border-2 border-border rounded-none p-6">
       <h4 className="text-sm font-medium text-ink-muted mb-4">{agent.forecast_days}-day revenue forecast</h4>
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={agent.forecast}>
@@ -115,7 +115,7 @@ export default function Results() {
         <p className="text-ink-muted mb-6">Three risk scenarios, each backed by a backtested forecasting model</p>
 
         {report.ai_summary && (
-          <div className="bg-gradient-to-br from-accent/10 to-moderate/10 border border-accent/20 rounded-xl p-6 mb-8">
+          <div className="bg-gradient-to-br from-accent/10 to-moderate/10 border-2 border-accent/20 rounded-none p-6 mb-8">
             <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">AI executive summary</p>
             <p className="text-ink-soft leading-relaxed">{report.ai_summary}</p>
           </div>
@@ -127,7 +127,7 @@ export default function Results() {
             <button
               key={s.key}
               onClick={() => setActiveScenario(s.key)}
-              className={`px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
+              className={`px-5 py-2.5 rounded-none border text-sm font-medium transition-colors ${
                 activeScenario === s.key
                   ? s.bg + " " + s.color
                   : "border-border-hover text-ink-muted hover:border-accent/40"
@@ -142,14 +142,20 @@ export default function Results() {
         {!agent ? (
           <div className="text-ink-muted">No data for this scenario.</div>
         ) : agent.error ? (
-          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-xl p-5">
+          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-none p-5">
             {agent.error}
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="bg-surface border border-border rounded-xl p-6">
+            <div className="bg-surface border-2 border-border rounded-none p-6">
               <h3 className={`text-lg font-semibold mb-1 ${active.color}`}>{agent.scenario || active.subtitle}</h3>
               <p className="text-ink-soft">{agent.insight}</p>
+              {agent.plain_english && (
+                <p className="text-ink-muted text-sm mt-3 pt-3 border-t border-border">
+                  <span className="text-ink-faint uppercase text-[10px] tracking-wide block mb-1">In plain terms</span>
+                  {agent.plain_english}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -168,7 +174,7 @@ export default function Results() {
 
             {activeScenario === "conservative" && (
               <div className="grid grid-cols-2 gap-6">
-                <div className="bg-surface border border-border rounded-xl p-6">
+                <div className="bg-surface border-2 border-border rounded-none p-6">
                   <h4 className="text-sm font-medium text-ink-muted mb-4">Revenue by region</h4>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={regionData}>
@@ -181,7 +187,7 @@ export default function Results() {
                   </ResponsiveContainer>
                 </div>
 
-                <div className="bg-surface border border-border rounded-xl p-6">
+                <div className="bg-surface border-2 border-border rounded-none p-6">
                   <h4 className="text-sm font-medium text-ink-muted mb-4">Revenue by product</h4>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={productData}>
@@ -205,11 +211,11 @@ export default function Results() {
                 </div>
 
                 {agent.anomalies?.length > 0 && (
-                  <div className="bg-surface border border-border rounded-xl p-6">
+                  <div className="bg-surface border-2 border-border rounded-none p-6">
                     <h4 className="text-sm font-medium text-ink-muted mb-4">Detected anomalies (risk factors)</h4>
                     <div className="space-y-3">
                       {agent.anomalies.map((a, i) => (
-                        <div key={i} className="flex items-center justify-between bg-surface-hover rounded-lg px-4 py-3">
+                        <div key={i} className="flex items-center justify-between bg-surface-hover rounded-none px-4 py-3">
                           <div>
                             <p className="text-ink text-sm font-medium">{a.date}</p>
                             <p className="text-ink-muted text-xs">{a.product} · {a.region}</p>
@@ -225,11 +231,11 @@ export default function Results() {
                 )}
 
                 {agent.underperforming_regions?.length > 0 && (
-                  <div className="bg-surface border border-border rounded-xl p-6">
+                  <div className="bg-surface border-2 border-border rounded-none p-6">
                     <h4 className="text-sm font-medium text-ink-muted mb-3">Underperforming regions</h4>
                     <div className="flex gap-2 flex-wrap">
                       {agent.underperforming_regions.map(r => (
-                        <span key={r} className="bg-aggressive/10 border border-aggressive/20 text-aggressive text-sm px-3 py-1 rounded-full">
+                        <span key={r} className="bg-aggressive/10 border border-aggressive/20 text-aggressive text-sm px-3 py-1 rounded-none">
                           {r}
                         </span>
                       ))}
