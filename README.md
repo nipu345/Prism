@@ -186,53 +186,12 @@ accuracy: 62.8% (MAPE 37.21%, 14-day holdout)`. Term by term:
 | `Confidence band / scenario range` | The spread between the cautious and optimistic forecasts — how uncertain the winning model is about the future, wider when your data is noisier. |
 | `Anomalies` (Isolation Forest) | Individual sales that look statistically unusual across revenue/units/day-of-week/month compared to the rest of your data — found algorithmically, not flagged by hand. |
 
-## Running it locally
-
-The live version above is the fastest way to try it, but here's how to run
-it yourself if you want to read the code, make changes, or just poke at it
-locally. It's three separate pieces (backend, frontend, and an optional
-notifications service), so it's a few more steps than a typical single-app
-clone. Backend first:
-
-```bash
-cd backend
-python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env   # add your SUPABASE_URL and SUPABASE_KEY
-uvicorn main:app --reload
-```
-
-If you want the AI summary feature to actually save, run this once in the
+One-time setup note: the AI summary feature needs this run once in the
 Supabase SQL editor. Not required — it just gets skipped without it:
 
 ```sql
 alter table reports add column if not exists ai_summary text;
 ```
-
-Then the frontend:
-
-```bash
-cd frontend
-npm install
-cp .env.example .env
-npm run dev
-```
-
-And notifications, if you care about the "email me when it's ready" step —
-skip this one and everything else still works fine:
-
-```bash
-cd notifications
-npm install
-cp .env.example .env   # no real SMTP needed, it fakes an inbox for you
-npm start
-```
-
-To try it out, sign up, then upload `sample_data/demo_sales.csv` (fake
-B2B sales data, ~180 days, regenerate it with
-`python scripts/generate_demo_data.py` if you want a different draw). You
-should get all three forecasts, a backtested accuracy score, and if you set
-it up, an AI summary and a notification email.
 
 ## Environment variables
 
