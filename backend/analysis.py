@@ -93,6 +93,19 @@ async def get_report(report_id: str, auth=Depends(get_current_user_and_company))
         if report_data.get("company_id") != company_id:
             raise HTTPException(status_code=403, detail="You do not have access to this report")
 
+        # the report row doesn't carry the source filename, but the results
+        # header shows it — pull it off the upload it came from
+        upload = (
+            supabase.table("uploads")
+            .select("filename, row_count, uploaded_at")
+            .eq("id", report_data["upload_id"])
+            .execute()
+        )
+        if upload.data:
+            report_data["filename"] = upload.data[0].get("filename")
+            report_data["row_count"] = upload.data[0].get("row_count")
+            report_data["uploaded_at"] = upload.data[0].get("uploaded_at")
+
         return report_data
 
     except HTTPException:

@@ -1,34 +1,56 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 
-  /* surfaces */
-  --color-bg: #0a0e1a;
-  --color-surface: #12172a;
-  --color-surface-hover: #171d33;
-  --color-border: #232a42;
-  --color-border-hover: #2e3752;
+  /* surfaces — light, warm-neutral */
+  --color-bg: #faf9f6;
+  --color-surface: #ffffff;
+
+  /* rules do the separating; there are almost no boxes in this design */
+  --color-rule: #e6e4df;
+  --color-rule-soft: #efede8;
+  --color-rule-strong: #17171a;
 
   /* text */
-  --color-ink: #f4f1ea;
-  --color-ink-soft: #d9d4c8;
-  --color-ink-muted: #a39d8f;
-  --color-ink-faint: #6b6658;
+  --color-ink: #17171a;
+  --color-ink-soft: #2c2c30;
+  --color-ink-muted: #6b6b70;
+  --color-ink-faint: #9a9a9f;
 
-  /* brand accent */
-  --color-accent: #c9a13b;
-  --color-accent-hover: #b3872a;
+  /* one warm accent, spent sparingly — not on every button */
+  --color-accent: #8a6a3d;
+  --color-accent-hover: #6d5330;
 
-  /* scenario identity — validated categorical set (CVD delta-E >= 8, dark
-     lightness band, >=3:1 contrast on --color-bg via dataviz skill validator) */
-  --color-conservative: #199e70;
-  --color-moderate: #3987e5;
-  --color-aggressive: #d95926;
+  /* status — reserved, never reused for a data series */
+  --color-danger: #b3261e;
+
+  /* scenario identity — validated for a LIGHT surface via the dataviz
+     validator (CVD delta-E, lightness band, >=3:1 contrast on #ffffff).
+     These are different steps from the dark set, not the same hex lightened. */
+  --color-conservative: #15855e;
+  --color-moderate: #2a78d6;
+  --color-aggressive: #c9501f;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* figures line up column-to-column and decimal-to-decimal */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* the small letterspaced caps used for every field label */
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
 }

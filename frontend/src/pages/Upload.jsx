@@ -1,6 +1,15 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import client from "../api/client"
+import Nav from "../components/Nav"
+
+const COLUMNS = [
+  { name: "date", desc: "Any parseable date format" },
+  { name: "revenue", desc: "Amount per sale" },
+  { name: "units_sold", desc: "Quantity per sale" },
+  { name: "product", desc: "Product or SKU name" },
+  { name: "region", desc: "Territory or location" },
+]
 
 export default function Upload() {
   const navigate = useNavigate()
@@ -23,13 +32,8 @@ export default function Upload() {
     try {
       const formData = new FormData()
       formData.append("file", file)
-
       const uploadRes = await client.post("/uploads/upload", formData)
-
-      const uploadId = uploadRes.data.upload_id
-
-      const analysisRes = await client.post(`/analysis/analyze/${uploadId}`, {})
-
+      const analysisRes = await client.post(`/analysis/analyze/${uploadRes.data.upload_id}`, {})
       navigate(`/results/${analysisRes.data.report_id}`)
     } catch (err) {
       setError(err.response?.data?.detail || "Upload failed")
@@ -39,36 +43,42 @@ export default function Upload() {
   }
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
-      <nav className="border-b border-border px-6 py-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate("/dashboard")}>Prism</h1>
-      </nav>
+    <div className="min-h-screen bg-bg">
+      <Nav />
 
-      <div className="max-w-2xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-semibold mb-2">New analysis</h2>
-        <p className="text-ink-muted mb-8">
-          Upload your company sales data to generate cautious, expected, and optimistic revenue forecasts
-        </p>
+      <div className="max-w-[840px] mx-auto px-14 pt-14 pb-20">
 
-        <div className="bg-surface rounded-none p-6 border-2 border-border mb-6">
-          <p className="text-sm font-medium text-ink-soft mb-3">Expected columns</p>
-          <div className="flex flex-wrap gap-2">
-            {["date", "revenue", "units_sold", "product", "region"].map(col => (
-              <span key={col} className="bg-surface-hover text-ink-soft text-xs font-mono px-3 py-1 rounded-none">
-                {col}
-              </span>
+        <header className="mb-12">
+          <h1 className="text-[38px] font-normal tracking-[-0.025em] leading-[1.1] mb-3">New analysis</h1>
+          <p className="font-serif text-[17px] leading-[1.7] text-ink-soft max-w-[58ch]">
+            Upload past sales and Prism will fit three forecasting models to it, score each
+            against days held back from training, and project the next 30 days in three
+            scenarios.
+          </p>
+        </header>
+
+        <div className="label mb-4">Expected columns</div>
+        <table className="w-full border-collapse mb-12">
+          <tbody>
+            {COLUMNS.map(col => (
+              <tr key={col.name}>
+                <td className="w-[160px] py-2.5 border-t border-rule-soft text-[13px] font-medium">{col.name}</td>
+                <td className="py-2.5 border-t border-rule-soft text-[13px] text-ink-muted">{col.desc}</td>
+              </tr>
             ))}
-          </div>
-          <p className="text-xs text-ink-faint mt-3">Column names will be auto-detected if they differ</p>
-        </div>
+          </tbody>
+        </table>
+        <p className="text-xs text-ink-faint -mt-10 mb-12">
+          Column names are matched automatically if yours differ.
+        </p>
 
         <div
           onDragOver={e => { e.preventDefault(); setDragging(true) }}
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
           onClick={() => document.getElementById("fileInput").click()}
-          className={`border-2 border-dashed rounded-none p-16 text-center cursor-pointer transition-colors ${
-            dragging ? "border-accent bg-accent/5" : "border-border-hover hover:border-accent/50"
+          className={`border border-dashed py-20 text-center cursor-pointer transition-colors ${
+            dragging ? "border-accent bg-accent/5" : "border-rule hover:border-ink-faint"
           }`}
         >
           <input
@@ -79,39 +89,37 @@ export default function Upload() {
             onChange={e => setFile(e.target.files[0])}
           />
           {file ? (
-            <div>
-              <p className="text-ink font-medium">{file.name}</p>
-              <p className="text-ink-muted text-sm mt-1 font-mono">{(file.size / 1024).toFixed(1)} KB</p>
-            </div>
+            <>
+              <p className="text-sm font-medium">{file.name}</p>
+              <p className="tnum text-xs text-ink-faint mt-1.5">{(file.size / 1024).toFixed(1)} KB</p>
+            </>
           ) : (
-            <div>
-              <p className="text-ink-soft font-medium">Drop your CSV or Excel file here</p>
-              <p className="text-ink-faint text-sm mt-1">or click to browse</p>
-            </div>
+            <>
+              <p className="text-sm text-ink-soft">Drop a CSV or Excel file here</p>
+              <p className="text-xs text-ink-faint mt-1.5">or click to browse</p>
+            </>
           )}
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-none p-3 mt-4 text-sm">
-            {error}
-          </div>
+          <p className="text-[13px] text-danger mt-5 pt-4 border-t border-rule">{error}</p>
         )}
 
         <button
           onClick={handleSubmit}
           disabled={!file || loading}
-          className="w-full mt-6 bg-accent hover:bg-accent-hover disabled:opacity-40 text-bg font-semibold py-3 rounded-none transition-colors"
+          className="w-full mt-8 bg-ink text-bg text-[13px] font-medium py-3.5 hover:bg-ink-soft disabled:opacity-30 transition-colors"
         >
-          {loading ? "Running analysis..." : "Run analysis"}
+          {loading ? "Running analysis…" : "Run analysis"}
         </button>
 
         {loading && (
-          <p className="text-xs text-ink-faint mt-3 text-center">
-            This can take a couple of minutes — we're backtesting several
-            forecasting models against your data and picking whichever one
-            is actually most accurate, not just running one fixed formula.
+          <p className="text-xs text-ink-faint mt-4 text-center leading-relaxed max-w-[52ch] mx-auto">
+            This can take a couple of minutes. Three models are being fit and scored against
+            held-out days before either produces a forecast.
           </p>
         )}
+
       </div>
     </div>
   )
