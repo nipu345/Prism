@@ -2,62 +2,36 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import client from "../api/client"
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, LineChart, Line
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend
 } from "recharts"
+import Nav from "../components/Nav"
 
-// validated categorical set (dataviz-skill validator: CVD delta-E >= 8, dark
-// lightness band, >=3:1 contrast on --color-bg) — keep these three hex
-// values in sync with the --color-conservative/moderate/aggressive tokens
-// in index.css, Recharts needs literal colors, not Tailwind classes
+// validated for a LIGHT surface by the dataviz validator — keep in sync with
+// the --color-conservative/moderate/aggressive tokens in index.css (Recharts
+// needs literal colors, not Tailwind classes)
 const SCENARIOS = [
-  { key: "conservative", label: "Conservative", subtitle: "Cautious case", color: "text-conservative", bg: "bg-conservative/10 border-conservative/20", line: "#199e70" },
-  { key: "moderate", label: "Moderate", subtitle: "Expected case", color: "text-moderate", bg: "bg-moderate/10 border-moderate/20", line: "#3987e5" },
-  { key: "aggressive", label: "Aggressive", subtitle: "Optimistic case", color: "text-aggressive", bg: "bg-aggressive/10 border-aggressive/20", line: "#d95926" },
+  { key: "conservative", label: "Conservative", color: "#15855e" },
+  { key: "moderate", label: "Moderate", color: "#2a78d6" },
+  { key: "aggressive", label: "Aggressive", color: "#c9501f" },
 ]
 
-const CHART_THEME = {
-  grid: "#232a42",
-  tick: { fill: "#a39d8f", fontSize: 12, fontFamily: "JetBrains Mono, monospace" },
-  tooltip: { backgroundColor: "#12172a", border: "2px solid #232a42", borderRadius: "0px", fontFamily: "JetBrains Mono, monospace" },
+const CHART = {
+  grid: "#eeece7",
+  axis: { fill: "#9a9a9f", fontSize: 10, fontFamily: "Instrument Sans, sans-serif" },
+  tooltip: {
+    backgroundColor: "#ffffff",
+    border: "1px solid #e6e4df",
+    borderRadius: "0px",
+    fontSize: "12px",
+    fontFamily: "Instrument Sans, sans-serif",
+  },
 }
 
-function StatTile({ label, value }) {
-  return (
-    <div className="bg-surface border-2 border-border rounded-none p-5">
-      <p className="text-ink-muted text-sm">{label}</p>
-      <p className="text-2xl font-semibold text-ink mt-1 font-mono">{value}</p>
-    </div>
-  )
-}
+const money = (n) => (n == null ? "—" : `$${Math.round(n).toLocaleString()}`)
+const money2 = (n) => (n == null ? "—" : `$${n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`)
 
-function ModelCaption({ agent }) {
-  const mape = agent.backtest?.mape
-  return (
-    <p className="text-xs text-ink-faint mt-2 font-mono">
-      Model: <span className="text-ink-muted">{agent.model_used}</span>
-      {mape !== undefined && mape !== null && (
-        <> · Backtested accuracy: <span className="text-ink-muted">{(100 - mape).toFixed(1)}%</span> (MAPE {mape}%, {agent.backtest?.holdout_days}-day holdout)</>
-      )}
-    </p>
-  )
-}
-
-function ForecastChart({ agent, color }) {
-  return (
-    <div className="bg-surface border-2 border-border rounded-none p-6">
-      <h4 className="text-sm font-medium text-ink-muted mb-4">{agent.forecast_days}-day revenue forecast</h4>
-      <ResponsiveContainer width="100%" height={220}>
-        <LineChart data={agent.forecast}>
-          <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.grid} />
-          <XAxis dataKey="day" tick={CHART_THEME.tick} />
-          <YAxis tick={CHART_THEME.tick} />
-          <Tooltip contentStyle={CHART_THEME.tooltip} />
-          <Line type="monotone" dataKey="predicted_revenue" stroke={color} strokeWidth={2} dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
-  )
+function Label({ children, className = "" }) {
+  return <div className={`label ${className}`}>{children}</div>
 }
 
 export default function Results() {
@@ -65,187 +39,290 @@ export default function Results() {
   const navigate = useNavigate()
   const [report, setReport] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [activeScenario, setActiveScenario] = useState("conservative")
 
   useEffect(() => {
     let ignore = false
-
     client.get(`/analysis/reports/${reportId}`)
       .then(res => { if (!ignore) setReport(res.data) })
       .catch(err => console.error(err))
       .finally(() => { if (!ignore) setLoading(false) })
-
     return () => { ignore = true }
   }, [reportId])
 
   if (loading) return (
-    <div className="min-h-screen bg-bg flex items-center justify-center">
-      <p className="text-ink-muted">Loading results...</p>
+    <div className="min-h-screen bg-bg">
+      <Nav />
+      <p className="text-ink-muted px-14 py-14 text-sm">Loading results…</p>
     </div>
   )
 
   if (!report) return (
-    <div className="min-h-screen bg-bg flex items-center justify-center">
-      <p className="text-ink-muted">Report not found</p>
+    <div className="min-h-screen bg-bg">
+      <Nav />
+      <p className="text-ink-muted px-14 py-14 text-sm">Report not found.</p>
     </div>
   )
 
-  const active = SCENARIOS.find(s => s.key === activeScenario)
-  const agent = report[activeScenario]
+  const moderate = report.moderate
+  const failed = !moderate || moderate.error
 
-  const regionData = report.conservative?.revenue_by_region
-    ? Object.entries(report.conservative.revenue_by_region).map(([region, revenue]) => ({ region, revenue }))
-    : []
+  if (failed) return (
+    <div className="min-h-screen bg-bg">
+      <Nav />
+      <div className="max-w-[1180px] mx-auto px-14 py-14">
+        <h1 className="text-3xl font-normal tracking-tight mb-4">Analysis incomplete</h1>
+        <p className="text-ink-muted text-sm max-w-xl leading-relaxed">
+          {moderate?.error || "This report has no forecast data."}
+        </p>
+      </div>
+    </div>
+  )
 
-  const productData = report.conservative?.revenue_by_product
-    ? Object.entries(report.conservative.revenue_by_product).map(([product, revenue]) => ({ product, revenue }))
-    : []
+  const conservative = report.conservative
+  const aggressive = report.aggressive
+  const histAvg = conservative?.mean_daily_revenue
+
+  // one row per forecast day, all three scenarios side by side
+  const chartData = (moderate.forecast || []).map((point, i) => ({
+    day: point.day,
+    date: point.date,
+    conservative: conservative?.forecast?.[i]?.predicted_revenue,
+    moderate: point.predicted_revenue,
+    aggressive: aggressive?.forecast?.[i]?.predicted_revenue,
+  }))
+
+  const byKey = { conservative, moderate, aggressive }
+  const vsHistorical = (agent) =>
+    histAvg && agent?.forecasted_daily_average != null
+      ? (agent.forecasted_daily_average / histAvg - 1) * 100
+      : null
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
-      <nav className="border-b border-border px-6 py-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate("/dashboard")}>Prism</h1>
-        <button onClick={() => navigate("/dashboard")} className="text-ink-muted hover:text-ink text-sm transition-colors">
-          ← Back to dashboard
-        </button>
-      </nav>
+    <div className="min-h-screen bg-bg">
+      <Nav />
 
-      <div className="max-w-5xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-semibold mb-2">Analysis results</h2>
-        <p className="text-ink-muted mb-6">Three risk scenarios, each backed by a backtested forecasting model</p>
+      <div className="max-w-[1180px] mx-auto px-14 pt-14 pb-20">
 
-        {report.ai_summary && (
-          <div className="bg-gradient-to-br from-accent/10 to-moderate/10 border-2 border-accent/20 rounded-none p-6 mb-8">
-            <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-2">AI executive summary</p>
-            <p className="text-ink-soft leading-relaxed">{report.ai_summary}</p>
+        <header className="flex items-end justify-between mb-14">
+          <div>
+            <Label className="mb-3.5">Revenue forecast · next {moderate.forecast_days} days</Label>
+            <h1 className="text-[38px] font-normal tracking-[-0.025em] leading-[1.1]">
+              {report.filename || "Analysis"}
+            </h1>
           </div>
-        )}
+          <div className="tnum text-xs text-ink-faint text-right leading-[1.7]">
+            {report.row_count != null && <>{report.row_count.toLocaleString()} records<br /></>}
+            {report.uploaded_at && <>Uploaded {new Date(report.uploaded_at).toLocaleDateString()}</>}
+          </div>
+        </header>
 
-        {/* Scenario selector */}
-        <div className="flex gap-3 mb-8">
+        {/* the three scenarios, side by side — no tabs */}
+        <div className="grid grid-cols-3 mb-4" style={{ gap: "52px" }}>
           {SCENARIOS.map(s => (
-            <button
-              key={s.key}
-              onClick={() => setActiveScenario(s.key)}
-              className={`px-5 py-2.5 rounded-none border text-sm font-medium transition-colors ${
-                activeScenario === s.key
-                  ? s.bg + " " + s.color
-                  : "border-border-hover text-ink-muted hover:border-accent/40"
-              }`}
-            >
-              {s.label}
-              <span className="block text-[10px] font-normal opacity-70">{s.subtitle}</span>
-            </button>
+            <div key={s.key}>
+              <div className="flex items-center gap-2 mb-3.5">
+                <span className="w-2 h-2 inline-block" style={{ background: s.color }} />
+                <span className="label" style={{ color: "var(--color-ink)" }}>{s.label}</span>
+              </div>
+              <div className="tnum text-[40px] font-normal tracking-[-0.03em] leading-none">
+                {money(byKey[s.key]?.forecasted_total_revenue)}
+              </div>
+            </div>
           ))}
         </div>
 
-        {!agent ? (
-          <div className="text-ink-muted">No data for this scenario.</div>
-        ) : agent.error ? (
-          <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-none p-5">
-            {agent.error}
+        <table className="w-full border-collapse mb-14">
+          <tbody>
+            <tr>
+              <td className="w-[180px] py-3.5 border-t border-rule text-xs text-ink-faint">Daily average</td>
+              {SCENARIOS.map(s => (
+                <td key={s.key} className="tnum py-3.5 border-t border-rule text-right text-[13px]">
+                  {money2(byKey[s.key]?.forecasted_daily_average)}
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <td className="py-3.5 border-t border-rule text-xs text-ink-faint">vs. historical daily average</td>
+              {SCENARIOS.map(s => {
+                const delta = vsHistorical(byKey[s.key])
+                return (
+                  <td key={s.key} className="tnum py-3.5 border-t border-rule text-right text-[13px]">
+                    {delta == null ? "—" : `${delta >= 0 ? "+" : "−"}${Math.abs(delta).toFixed(1)}%`}
+                  </td>
+                )
+              })}
+            </tr>
+          </tbody>
+        </table>
+
+        <Label className="mb-5">Projected daily revenue</Label>
+        <div className="mb-14">
+          <ResponsiveContainer width="100%" height={290}>
+            <LineChart data={chartData} margin={{ top: 4, right: 12, bottom: 4, left: 4 }}>
+              <CartesianGrid stroke={CHART.grid} vertical={false} />
+              <XAxis dataKey="day" tick={CHART.axis} tickLine={false} axisLine={{ stroke: "#dedbd4" }} />
+              <YAxis
+                tick={CHART.axis}
+                tickLine={false}
+                axisLine={false}
+                width={54}
+                tickFormatter={v => `$${(v / 1000).toFixed(1)}k`}
+              />
+              <Tooltip
+                contentStyle={CHART.tooltip}
+                formatter={(v, name) => [money2(v), name]}
+                labelFormatter={d => `Day ${d}`}
+              />
+              <Legend
+                verticalAlign="top"
+                align="left"
+                height={28}
+                iconType="plainline"
+                wrapperStyle={{ fontSize: "11px", fontFamily: "Instrument Sans, sans-serif" }}
+              />
+              {SCENARIOS.map(s => (
+                <Line
+                  key={s.key}
+                  type="monotone"
+                  dataKey={s.key}
+                  name={s.label}
+                  stroke={s.color}
+                  strokeWidth={s.key === "moderate" ? 2 : 1.5}
+                  dot={false}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="grid grid-cols-[1fr_340px] gap-16 items-start mb-14">
+          <div>
+            <Label className="mb-4">Analysis</Label>
+            {report.ai_summary ? (
+              <p className="font-serif text-[17px] leading-[1.7] text-ink-soft max-w-[60ch]">
+                {report.ai_summary}
+              </p>
+            ) : (
+              <p className="font-serif text-[17px] leading-[1.7] text-ink-soft max-w-[60ch]">
+                {moderate.insight}
+              </p>
+            )}
+            {moderate.plain_english && (
+              <p className="text-[13px] leading-relaxed text-ink-muted max-w-[62ch] mt-5 pt-5 border-t border-rule-soft">
+                {moderate.plain_english}
+              </p>
+            )}
           </div>
-        ) : (
-          <div className="space-y-6">
-            <div className="bg-surface border-2 border-border rounded-none p-6">
-              <h3 className={`text-lg font-semibold mb-1 ${active.color}`}>{agent.scenario || active.subtitle}</h3>
-              <p className="text-ink-soft">{agent.insight}</p>
-              {agent.plain_english && (
-                <p className="text-ink-muted text-sm mt-3 pt-3 border-t border-border">
-                  <span className="text-ink-faint uppercase text-[10px] tracking-wide block mb-1">In plain terms</span>
-                  {agent.plain_english}
-                </p>
+
+          <div>
+            <Label className="mb-4">Method</Label>
+            <div className="flex justify-between items-baseline pb-3.5 border-b border-rule mb-3.5">
+              <span className="text-sm">{moderate.model_used}</span>
+              {moderate.backtest?.mape != null && (
+                <span className="tnum text-[22px] font-normal tracking-[-0.02em] text-accent">
+                  {(100 - moderate.backtest.mape).toFixed(1)}%
+                </span>
               )}
             </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <StatTile label={`${agent.forecast_days}-day forecast`} value={`$${agent.forecasted_total_revenue?.toLocaleString()}`} />
-              <StatTile label="Daily average" value={`$${agent.forecasted_daily_average?.toLocaleString()}`} />
-              <StatTile
-                label="Backtested accuracy"
-                value={agent.backtest?.mape != null ? `${(100 - agent.backtest.mape).toFixed(1)}%` : "N/A"}
-              />
-            </div>
-
-            <div>
-              <ForecastChart agent={agent} color={active.line} />
-              <ModelCaption agent={agent} />
-            </div>
-
-            {activeScenario === "conservative" && (
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-surface border-2 border-border rounded-none p-6">
-                  <h4 className="text-sm font-medium text-ink-muted mb-4">Revenue by region</h4>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={regionData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.grid} />
-                      <XAxis dataKey="region" tick={CHART_THEME.tick} />
-                      <YAxis tick={CHART_THEME.tick} />
-                      <Tooltip contentStyle={CHART_THEME.tooltip} />
-                      <Bar dataKey="revenue" fill="#199e70" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-
-                <div className="bg-surface border-2 border-border rounded-none p-6">
-                  <h4 className="text-sm font-medium text-ink-muted mb-4">Revenue by product</h4>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={productData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.grid} />
-                      <XAxis dataKey="product" tick={CHART_THEME.tick} />
-                      <YAxis tick={CHART_THEME.tick} />
-                      <Tooltip contentStyle={CHART_THEME.tooltip} />
-                      <Bar dataKey="revenue" fill="#199e70" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+            {moderate.backtest?.mape != null && (
+              <p className="text-xs text-ink-faint leading-relaxed mb-6">
+                Backtested accuracy — on {moderate.backtest.holdout_days} recent days the model
+                never saw, its guesses were off by {moderate.backtest.mape}% on average.
+              </p>
             )}
 
-            {activeScenario === "aggressive" && (
+            {moderate.candidate_scores?.length > 0 && (
               <>
-                <div className="grid grid-cols-3 gap-4">
-                  <StatTile label="Anomalies found" value={agent.anomalies_found} />
-                  <StatTile label="Best product" value={agent.best_performing_product ?? "—"} />
-                  <StatTile label="Underperforming regions" value={agent.underperforming_regions?.length ?? 0} />
-                </div>
-
-                {agent.anomalies?.length > 0 && (
-                  <div className="bg-surface border-2 border-border rounded-none p-6">
-                    <h4 className="text-sm font-medium text-ink-muted mb-4">Detected anomalies (risk factors)</h4>
-                    <div className="space-y-3">
-                      {agent.anomalies.map((a, i) => (
-                        <div key={i} className="flex items-center justify-between bg-surface-hover rounded-none px-4 py-3">
-                          <div>
-                            <p className="text-ink text-sm font-medium">{a.date}</p>
-                            <p className="text-ink-muted text-xs">{a.product} · {a.region}</p>
-                          </div>
-                          <div className="text-right font-mono">
-                            <p className="text-ink text-sm">${a.revenue?.toLocaleString()}</p>
-                            <p className="text-ink-muted text-xs">{a.units_sold} units</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                <Label className="mb-3">Candidates</Label>
+                {moderate.candidate_scores.map((c, i) => (
+                  <div
+                    key={c.name}
+                    className={`flex justify-between py-2 border-t border-rule-soft text-xs ${i === 0 ? "text-ink" : "text-ink-faint"}`}
+                  >
+                    <span>{c.label}</span>
+                    <span className="tnum">{c.mape ?? "—"}</span>
                   </div>
-                )}
-
-                {agent.underperforming_regions?.length > 0 && (
-                  <div className="bg-surface border-2 border-border rounded-none p-6">
-                    <h4 className="text-sm font-medium text-ink-muted mb-3">Underperforming regions</h4>
-                    <div className="flex gap-2 flex-wrap">
-                      {agent.underperforming_regions.map(r => (
-                        <span key={r} className="bg-aggressive/10 border border-aggressive/20 text-aggressive text-sm px-3 py-1 rounded-none">
-                          {r}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                ))}
+                <p className="text-[11px] text-ink-faint mt-2.5 leading-snug">MAPE, lower is better.</p>
               </>
             )}
           </div>
-        )}
+        </div>
+
+        {/* supporting detail, previously buried behind the conservative/aggressive tabs */}
+        <div className="grid grid-cols-2 gap-16 items-start pt-10 border-t border-rule">
+          <div>
+            <Label className="mb-4">Revenue by region</Label>
+            <table className="w-full border-collapse">
+              <tbody>
+                {Object.entries(conservative?.revenue_by_region || {}).map(([region, revenue]) => (
+                  <tr key={region}>
+                    <td className="py-2.5 border-t border-rule-soft text-[13px]">{region}</td>
+                    <td className="tnum py-2.5 border-t border-rule-soft text-right text-[13px] text-ink-muted">
+                      {money(revenue)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <Label className="mb-4 mt-10">Revenue by product</Label>
+            <table className="w-full border-collapse">
+              <tbody>
+                {Object.entries(conservative?.revenue_by_product || {}).map(([product, revenue]) => (
+                  <tr key={product}>
+                    <td className="py-2.5 border-t border-rule-soft text-[13px]">{product}</td>
+                    <td className="tnum py-2.5 border-t border-rule-soft text-right text-[13px] text-ink-muted">
+                      {money(revenue)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <Label className="mb-4">
+              Anomalies — {aggressive?.anomalies_found ?? 0} flagged
+            </Label>
+            <p className="text-xs text-ink-faint leading-relaxed mb-4 max-w-[52ch]">
+              Individual sales that stand apart from the rest on revenue, units, day of week
+              and month. These are the events most likely to move a forecast.
+            </p>
+            <table className="w-full border-collapse">
+              <tbody>
+                {(aggressive?.anomalies || []).slice(0, 8).map((a, i) => (
+                  <tr key={i}>
+                    <td className="tnum py-2.5 border-t border-rule-soft text-[13px] text-ink-muted whitespace-nowrap">
+                      {a.date}
+                    </td>
+                    <td className="py-2.5 border-t border-rule-soft text-[13px] pl-4">
+                      {a.product} · {a.region}
+                    </td>
+                    <td className="tnum py-2.5 border-t border-rule-soft text-right text-[13px]">
+                      {money(a.revenue)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {(aggressive?.anomalies?.length || 0) > 8 && (
+              <p className="text-[11px] text-ink-faint mt-2.5">
+                Showing 8 of {aggressive.anomalies.length}.
+              </p>
+            )}
+          </div>
+        </div>
+
+        <p className="text-[11px] text-ink-faint mt-14 pt-5 border-t border-rule tnum">
+          {moderate.model_used}
+          {moderate.backtest?.mape != null && <> · MAPE {moderate.backtest.mape}% · {moderate.backtest.holdout_days}-day holdout</>}
+          {" · "}
+          <button onClick={() => navigate("/dashboard")} className="text-accent hover:text-accent-hover">
+            Back to analyses
+          </button>
+        </p>
+
       </div>
     </div>
   )

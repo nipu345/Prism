@@ -15,11 +15,7 @@ export default function Signup() {
     setLoading(true)
     setError("")
     try {
-      await client.post("/auth/signup", {
-        email,
-        password,
-        company_name: companyName
-      })
+      await client.post("/auth/signup", { email, password, company_name: companyName })
       navigate("/login")
     } catch (err) {
       setError(err.response?.data?.detail || "Signup failed")
@@ -28,69 +24,73 @@ export default function Signup() {
     }
   }
 
+  const field = "w-full bg-transparent border-b border-rule-strong py-2 text-[15px] placeholder-ink-faint focus:outline-none focus:border-accent transition-colors"
+
   return (
-    <div className="min-h-screen bg-bg flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-ink tracking-tight">Prism</h1>
-          <p className="text-ink-muted mt-2">Sales intelligence for modern teams</p>
-        </div>
-        <div className="bg-surface rounded-none p-8 border-2 border-border">
-          <h2 className="text-xl font-semibold text-ink mb-6">Create your account</h2>
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-none p-3 mb-4 text-sm">
-              {error}
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="text-sm text-ink-muted mb-1 block">Company name</label>
-              <input
-                type="text"
-                value={companyName}
-                onChange={e => setCompanyName(e.target.value)}
-                className="w-full bg-surface-hover border border-border-hover rounded-none px-4 py-2.5 text-ink placeholder-ink-faint focus:outline-none focus:border-accent"
-                placeholder="Acme Inc."
-                required
-              />
-            </div>
-            <div>
-              <label className="text-sm text-ink-muted mb-1 block">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full bg-surface-hover border border-border-hover rounded-none px-4 py-2.5 text-ink placeholder-ink-faint focus:outline-none focus:border-accent"
-                placeholder="you@company.com"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-sm text-ink-muted mb-1 block">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full bg-surface-hover border border-border-hover rounded-none px-4 py-2.5 text-ink placeholder-ink-faint focus:outline-none focus:border-accent"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-accent hover:bg-accent-hover text-bg font-semibold py-2.5 rounded-none transition-colors disabled:opacity-50"
-            >
-              {loading ? "Creating account..." : "Create account"}
-            </button>
-          </form>
-          <p className="text-ink-muted text-sm text-center mt-6">
-            Already have an account?{" "}
-            <Link to="/login" className="text-accent hover:text-accent-hover">
-              Sign in
-            </Link>
+    <div className="min-h-screen bg-bg flex items-center justify-center px-6">
+      <div className="w-full max-w-[380px]">
+
+        <div className="mb-12">
+          <div className="text-sm font-semibold tracking-[0.18em] mb-5">PRISM</div>
+          <h1 className="text-[32px] font-normal tracking-[-0.025em] leading-[1.15] mb-3">
+            Create an account
+          </h1>
+          <p className="font-serif text-[15px] leading-relaxed text-ink-muted">
+            Revenue forecasting with the accuracy shown, not assumed.
           </p>
         </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-5">
+            <label className="label block mb-2">Company</label>
+            <input
+              type="text"
+              value={companyName}
+              onChange={e => setCompanyName(e.target.value)}
+              className={field}
+              placeholder="Acme Inc."
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <label className="label block mb-2">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              className={field}
+              placeholder="you@company.com"
+              required
+            />
+          </div>
+          <div className="mb-8">
+            <label className="label block mb-2">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className={field}
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          {error && <p className="text-[13px] text-danger mb-5">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-ink text-bg text-[13px] font-medium py-3.5 hover:bg-ink-soft disabled:opacity-40 transition-colors"
+          >
+            {loading ? "Creating account…" : "Create account"}
+          </button>
+        </form>
+
+        <p className="text-[13px] text-ink-muted mt-8">
+          Already have an account?{" "}
+          <Link to="/login" className="text-accent hover:text-accent-hover">Sign in</Link>
+        </p>
+
       </div>
     </div>
   )

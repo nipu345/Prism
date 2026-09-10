@@ -224,6 +224,18 @@ def select_and_forecast(series: pd.Series, horizon: int = FORECAST_HORIZON) -> d
     return {
         "model_used": label,
         "candidates_evaluated": [r["name"] for r in ranked],
+        # every candidate with its actual backtest score, best first — the UI
+        # shows the models that lost, which is what makes "we picked the most
+        # accurate one" checkable rather than just asserted
+        "candidate_scores": [
+            {
+                "name": r["name"],
+                "label": r["label"],
+                "mape": round(r["mape"], 2) if r["mape"] is not None else None,
+                "rmse": round(r["rmse"], 2),
+            }
+            for r in ranked
+        ],
         "backtest": {
             "holdout_days": holdout,
             "mape": round(winner["mape"], 2) if winner["mape"] is not None else None,
@@ -289,6 +301,7 @@ def _build_moderate(series: pd.Series, forecast: dict) -> dict:
         "forecast": _forecast_table(series, forecast["moderate"]),
         "model_used": forecast["model_used"],
         "candidates_evaluated": forecast["candidates_evaluated"],
+        "candidate_scores": forecast["candidate_scores"],
         "backtest": forecast["backtest"],
         "insight": (
             f"{forecast['model_used']} was selected from {len(forecast['candidates_evaluated'])} candidate "
