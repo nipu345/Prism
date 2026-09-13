@@ -5,6 +5,7 @@ import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import Upload from "./pages/Upload"
 import Results from "./pages/Results"
+import Methodology from "./pages/Methodology"
 
 function PrivateRoute({ children }) {
   const { token } = useAuth()
@@ -19,6 +20,7 @@ export default function App() {
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       <Route path="/upload" element={<PrivateRoute><Upload /></PrivateRoute>} />
       <Route path="/results/:reportId" element={<PrivateRoute><Results /></PrivateRoute>} />
+      <Route path="/methodology" element={<PrivateRoute><Methodology /></PrivateRoute>} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   )

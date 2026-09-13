@@ -30,6 +30,7 @@ export default function Nav() {
         <div className="flex gap-6.5" style={{ gap: "26px" }}>
           {link("/dashboard", "Analyses")}
           {link("/upload", "Upload")}
+          {link("/methodology", "Methodology")}
         </div>
       </div>
       <button

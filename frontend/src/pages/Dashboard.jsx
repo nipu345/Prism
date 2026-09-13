@@ -128,6 +128,12 @@ export default function Dashboard() {
                 14 recent days the model never saw, its guesses were off by{" "}
                 <span className="tnum">37.2%</span> on average.
               </p>
+              <button
+                onClick={() => navigate("/methodology")}
+                className="text-xs text-accent hover:text-accent-hover transition-colors mt-4"
+              >
+                Read the full methodology →
+              </button>
             </div>
           </aside>
 
