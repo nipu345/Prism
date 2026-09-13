@@ -215,7 +215,15 @@ export default function Results() {
           </div>
 
           <div>
-            <Label className="mb-4">Method</Label>
+            <div className="flex justify-between items-baseline mb-4">
+              <Label>Method</Label>
+              <button
+                onClick={() => navigate("/methodology#reading-results")}
+                className="text-[11px] text-accent hover:text-accent-hover transition-colors"
+              >
+                What these numbers mean →
+              </button>
+            </div>
             <div className="flex justify-between items-baseline pb-3.5 border-b border-rule mb-3.5">
               <span className="text-sm">{moderate.model_used}</span>
               {moderate.backtest?.mape != null && (

@@ -132,7 +132,8 @@ def _fit_holt_winters(train: pd.Series, steps: int):
 
 def _fit_log_linear_growth(train: pd.Series, steps: int):
     """Numerical-optimization candidate: fit a * exp(b*x) + c via
-    scipy.optimize.curve_fit (Levenberg-Marquardt) rather than the
+    scipy.optimize.curve_fit (trust-region reflective — the bounds rule out
+    Levenberg-Marquardt) rather than the
     closed-form linear regression used for the descriptive trend line."""
     x = np.arange(len(train), dtype=float)
     y_shift = train.values.astype(float) + 1.0  # avoid log(0)/domain issues at 0
@@ -208,9 +209,16 @@ def select_and_forecast(series: pd.Series, horizon: int = FORECAST_HORIZON) -> d
     else:
         # non-ARIMA winners don't expose a native confidence interval —
         # derive one from the model's own backtested forecast error (how
-        # far off it actually was on held-out days), rather than the raw
-        # series volatility, widening with horizon but capped so the band
-        # doesn't blow up over a 30-day projection
+        # far off it actually was on held-out days), widening with horizon
+        # and capped at twice the holdout.
+        #
+        # KNOWN LIMITATION, measured but not yet fixed: this errs wide. σ
+        # already reflects misses 1-14 days ahead, and √h grows it again.
+        # Rolling-origin backtests (5 sample files x 5 origins, 30 unseen
+        # days each) found this "80%" band holding actual revenue ~98% of
+        # the time for Holt-Winters and ~92% for the growth curve. Simply
+        # dropping √h overcorrects (~75% / ~67%). A proper fix estimates σ
+        # separately at each horizon from rolling-origin backtests.
         resid_std = ranked[0]["residual_std"]
         if not resid_std or np.isnan(resid_std):
             resid_std = series.std() or 1.0
