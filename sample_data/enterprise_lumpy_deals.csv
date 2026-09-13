@@ -1,0 +1,887 @@
+date,revenue,units_sold,product,region
+2026-03-05,1470.2,1,Support Renewal,EMEA
+2026-03-05,6956.23,1,Implementation,LATAM
+2026-03-05,3396.94,1,Support Renewal,EMEA
+2026-03-05,5342.07,1,Support Renewal,North America
+2026-03-06,8239.59,1,Support Renewal,EMEA
+2026-03-06,14981.67,1,Platform License,North America
+2026-03-06,30457.44,1,Platform License,EMEA
+2026-03-06,9287.05,1,Implementation,North America
+2026-03-09,1835.33,1,Support Renewal,LATAM
+2026-03-09,26140.61,1,Platform License,North America
+2026-03-09,5860.7,1,Support Renewal,LATAM
+2026-03-09,6438.89,1,Platform License,North America
+2026-03-09,12681.77,1,Implementation,North America
+2026-03-09,3460.69,1,Implementation,North America
+2026-03-09,7943.85,1,Support Renewal,EMEA
+2026-03-09,25092.66,1,Platform License,LATAM
+2026-03-09,9789.81,1,Platform License,North America
+2026-03-09,8724.97,1,Implementation,North America
+2026-03-10,3808.43,1,Support Renewal,EMEA
+2026-03-10,3959.12,1,Platform License,North America
+2026-03-10,14514.04,1,Implementation,EMEA
+2026-03-10,14318.11,1,Implementation,EMEA
+2026-03-10,38849.26,1,Platform License,North America
+2026-03-10,7939.2,1,Platform License,LATAM
+2026-03-10,7616.95,1,Support Renewal,LATAM
+2026-03-10,15915.28,1,Platform License,North America
+2026-03-11,9523.57,1,Support Renewal,North America
+2026-03-11,3877.35,1,Implementation,EMEA
+2026-03-11,1135.68,1,Support Renewal,North America
+2026-03-11,53115.46,1,Platform License,North America
+2026-03-11,2495.34,1,Support Renewal,North America
+2026-03-11,9792.67,1,Platform License,North America
+2026-03-11,2501.16,1,Support Renewal,North America
+2026-03-11,4377.41,1,Support Renewal,EMEA
+2026-03-12,45634.15,1,Platform License,LATAM
+2026-03-12,16907.72,1,Platform License,EMEA
+2026-03-12,1602.71,1,Support Renewal,North America
+2026-03-12,3235.52,1,Implementation,LATAM
+2026-03-12,607.61,1,Support Renewal,North America
+2026-03-13,23258.07,1,Platform License,EMEA
+2026-03-13,2991.61,1,Support Renewal,EMEA
+2026-03-13,3615.63,1,Platform License,North America
+2026-03-13,21851.77,1,Platform License,EMEA
+2026-03-13,3510.62,1,Support Renewal,EMEA
+2026-03-13,6950.13,1,Implementation,North America
+2026-03-16,773.7,1,Implementation,North America
+2026-03-16,9069.04,1,Platform License,North America
+2026-03-16,37408.99,1,Platform License,EMEA
+2026-03-16,25593.4,1,Implementation,North America
+2026-03-16,24950.94,1,Platform License,North America
+2026-03-17,2250.1,1,Support Renewal,North America
+2026-03-17,2081.45,1,Support Renewal,EMEA
+2026-03-17,1989.43,1,Implementation,North America
+2026-03-17,4800.77,1,Support Renewal,North America
+2026-03-17,1088.86,1,Support Renewal,EMEA
+2026-03-17,11386.41,1,Platform License,North America
+2026-03-17,32144.16,1,Implementation,North America
+2026-03-18,5050.56,1,Platform License,North America
+2026-03-18,11013.22,1,Implementation,EMEA
+2026-03-18,3263.32,1,Support Renewal,EMEA
+2026-03-18,6198.51,1,Implementation,North America
+2026-03-18,1607.2,1,Implementation,North America
+2026-03-18,6833.51,1,Implementation,LATAM
+2026-03-19,35195.9,1,Platform License,North America
+2026-03-19,26158.65,1,Platform License,North America
+2026-03-19,34315.59,1,Platform License,EMEA
+2026-03-20,908.16,1,Support Renewal,LATAM
+2026-03-20,6515.96,1,Support Renewal,LATAM
+2026-03-20,1238.15,1,Support Renewal,North America
+2026-03-20,13965.49,1,Implementation,North America
+2026-03-20,1646.96,1,Support Renewal,North America
+2026-03-20,33899.38,1,Platform License,North America
+2026-03-23,18083.28,1,Implementation,North America
+2026-03-23,1564.57,1,Support Renewal,LATAM
+2026-03-23,44737.26,1,Platform License,North America
+2026-03-23,9676.62,1,Implementation,North America
+2026-03-23,4031.7,1,Implementation,LATAM
+2026-03-23,9184.11,1,Implementation,North America
+2026-03-23,12948.3,1,Platform License,LATAM
+2026-03-24,23673.97,1,Platform License,North America
+2026-03-24,3921.12,1,Implementation,EMEA
+2026-03-24,4108.91,1,Implementation,EMEA
+2026-03-24,6112.71,1,Implementation,North America
+2026-03-24,4600.79,1,Implementation,EMEA
+2026-03-24,20491.1,1,Platform License,North America
+2026-03-24,47239.91,1,Platform License,North America
+2026-03-24,46679.56,1,Platform License,EMEA
+2026-03-25,20123.49,1,Platform License,EMEA
+2026-03-25,15564.19,1,Platform License,LATAM
+2026-03-25,8391.45,1,Platform License,North America
+2026-03-25,4587.53,1,Platform License,EMEA
+2026-03-25,17589.2,1,Platform License,EMEA
+2026-03-25,10336.02,1,Platform License,LATAM
+2026-03-25,2779.37,1,Support Renewal,LATAM
+2026-03-26,1522.66,1,Support Renewal,North America
+2026-03-27,3124.89,1,Support Renewal,LATAM
+2026-03-27,1889.83,1,Support Renewal,North America
+2026-03-27,8818.32,1,Implementation,North America
+2026-03-27,26274.13,1,Platform License,EMEA
+2026-03-27,10169.37,1,Platform License,EMEA
+2026-03-30,5578.04,1,Implementation,North America
+2026-03-30,3024.25,1,Implementation,North America
+2026-03-30,3487.9,1,Support Renewal,North America
+2026-03-30,8133.7,1,Support Renewal,North America
+2026-03-30,20955.67,1,Implementation,North America
+2026-03-30,8207.19,1,Support Renewal,EMEA
+2026-03-30,3569.72,1,Implementation,North America
+2026-03-31,10859.14,1,Platform License,North America
+2026-03-31,6939.17,1,Implementation,North America
+2026-03-31,7606.33,1,Implementation,North America
+2026-03-31,4070.92,1,Implementation,North America
+2026-03-31,26862.85,1,Platform License,LATAM
+2026-03-31,6171.42,1,Implementation,North America
+2026-03-31,25759.34,1,Platform License,North America
+2026-04-01,30343.96,1,Platform License,North America
+2026-04-01,5552.91,1,Support Renewal,EMEA
+2026-04-01,6553.18,1,Platform License,EMEA
+2026-04-01,2984.45,1,Support Renewal,North America
+2026-04-01,31660.91,1,Platform License,North America
+2026-04-01,4453.52,1,Support Renewal,North America
+2026-04-01,3589.4,1,Support Renewal,North America
+2026-04-01,23444.89,1,Platform License,North America
+2026-04-01,4193.0,1,Implementation,EMEA
+2026-04-01,3878.35,1,Support Renewal,EMEA
+2026-04-02,1150.8,1,Support Renewal,EMEA
+2026-04-02,15904.97,1,Implementation,North America
+2026-04-02,11439.65,1,Platform License,EMEA
+2026-04-02,8576.51,1,Support Renewal,North America
+2026-04-02,624.96,1,Support Renewal,LATAM
+2026-04-02,2775.33,1,Support Renewal,EMEA
+2026-04-02,6201.01,1,Implementation,EMEA
+2026-04-02,12213.4,1,Implementation,EMEA
+2026-04-03,1245.16,1,Implementation,North America
+2026-04-03,9226.07,1,Platform License,North America
+2026-04-03,6596.59,1,Platform License,North America
+2026-04-06,3985.08,1,Support Renewal,North America
+2026-04-06,9871.29,1,Platform License,North America
+2026-04-06,3005.48,1,Support Renewal,North America
+2026-04-06,40210.72,1,Platform License,North America
+2026-04-06,4281.28,1,Support Renewal,EMEA
+2026-04-06,7185.88,1,Implementation,LATAM
+2026-04-06,11995.94,1,Platform License,North America
+2026-04-07,7742.5,1,Platform License,North America
+2026-04-07,4498.9,1,Support Renewal,North America
+2026-04-08,3694.04,1,Platform License,North America
+2026-04-08,5473.14,1,Support Renewal,North America
+2026-04-08,26815.96,1,Platform License,EMEA
+2026-04-08,8869.64,1,Support Renewal,North America
+2026-04-09,4904.43,1,Support Renewal,EMEA
+2026-04-09,17624.53,1,Platform License,North America
+2026-04-09,6431.62,1,Support Renewal,North America
+2026-04-09,1029.47,1,Support Renewal,North America
+2026-04-09,4516.44,1,Implementation,North America
+2026-04-09,19222.05,1,Platform License,EMEA
+2026-04-09,6384.36,1,Support Renewal,EMEA
+2026-04-09,4061.04,1,Support Renewal,North America
+2026-04-09,19321.67,1,Platform License,North America
+2026-04-10,8988.62,1,Implementation,LATAM
+2026-04-10,2558.08,1,Support Renewal,EMEA
+2026-04-10,13843.29,1,Platform License,EMEA
+2026-04-10,3130.13,1,Support Renewal,EMEA
+2026-04-10,2830.77,1,Support Renewal,North America
+2026-04-13,7234.34,1,Support Renewal,EMEA
+2026-04-13,2831.11,1,Implementation,North America
+2026-04-13,12968.74,1,Implementation,North America
+2026-04-13,6005.2,1,Implementation,North America
+2026-04-13,2763.67,1,Support Renewal,LATAM
+2026-04-14,37396.58,1,Platform License,North America
+2026-04-14,34027.58,1,Platform License,North America
+2026-04-14,10409.35,1,Platform License,North America
+2026-04-14,17725.78,1,Implementation,EMEA
+2026-04-15,5789.89,1,Implementation,LATAM
+2026-04-15,9580.1,1,Implementation,LATAM
+2026-04-15,5434.1,1,Platform License,North America
+2026-04-15,41937.62,1,Platform License,North America
+2026-04-15,16249.88,1,Implementation,North America
+2026-04-16,6034.63,1,Implementation,North America
+2026-04-16,2720.73,1,Support Renewal,North America
+2026-04-16,8866.48,1,Implementation,EMEA
+2026-04-16,18854.85,1,Platform License,North America
+2026-04-16,6804.44,1,Implementation,EMEA
+2026-04-16,38411.49,1,Platform License,North America
+2026-04-16,23811.98,1,Platform License,EMEA
+2026-04-16,13968.5,1,Implementation,North America
+2026-04-16,4159.71,1,Support Renewal,EMEA
+2026-04-17,27552.29,1,Platform License,North America
+2026-04-17,4500.58,1,Implementation,North America
+2026-04-17,16615.46,1,Platform License,North America
+2026-04-17,2062.76,1,Support Renewal,North America
+2026-04-17,3333.08,1,Support Renewal,North America
+2026-04-17,12411.43,1,Platform License,North America
+2026-04-17,28845.95,1,Platform License,EMEA
+2026-04-17,7322.23,1,Platform License,EMEA
+2026-04-17,38996.9,1,Platform License,North America
+2026-04-20,11405.16,1,Support Renewal,EMEA
+2026-04-20,16985.13,1,Platform License,North America
+2026-04-20,10414.02,1,Implementation,EMEA
+2026-04-20,8632.9,1,Platform License,North America
+2026-04-20,4609.64,1,Platform License,North America
+2026-04-20,1715.17,1,Support Renewal,North America
+2026-04-21,16338.82,1,Platform License,LATAM
+2026-04-21,3775.64,1,Support Renewal,North America
+2026-04-21,29616.73,1,Platform License,EMEA
+2026-04-21,7698.83,1,Support Renewal,North America
+2026-04-21,19180.25,1,Platform License,North America
+2026-04-21,12516.71,1,Platform License,North America
+2026-04-21,10691.93,1,Platform License,North America
+2026-04-22,1404.91,1,Support Renewal,EMEA
+2026-04-22,1754.41,1,Support Renewal,LATAM
+2026-04-22,14125.56,1,Platform License,North America
+2026-04-22,778.28,1,Support Renewal,North America
+2026-04-22,11497.28,1,Support Renewal,North America
+2026-04-22,5608.32,1,Implementation,EMEA
+2026-04-23,2809.81,1,Support Renewal,North America
+2026-04-23,4258.61,1,Implementation,North America
+2026-04-23,19759.99,1,Implementation,North America
+2026-04-23,2390.07,1,Support Renewal,LATAM
+2026-04-23,1596.16,1,Support Renewal,North America
+2026-04-23,9956.23,1,Implementation,LATAM
+2026-04-23,9079.39,1,Platform License,North America
+2026-04-24,2768.56,1,Support Renewal,LATAM
+2026-04-24,1734.58,1,Support Renewal,North America
+2026-04-24,1818.54,1,Support Renewal,LATAM
+2026-04-24,15719.65,1,Platform License,EMEA
+2026-04-24,1218.58,1,Implementation,EMEA
+2026-04-24,12686.5,1,Implementation,North America
+2026-04-24,3970.32,1,Implementation,North America
+2026-04-24,1062.61,1,Support Renewal,North America
+2026-04-27,6530.29,1,Implementation,North America
+2026-04-27,5902.96,1,Implementation,North America
+2026-04-27,3779.67,1,Support Renewal,LATAM
+2026-04-27,5041.22,1,Support Renewal,North America
+2026-04-27,2645.2,1,Implementation,EMEA
+2026-04-28,10872.25,1,Implementation,EMEA
+2026-04-28,1726.62,1,Support Renewal,LATAM
+2026-04-28,17956.13,1,Platform License,North America
+2026-04-28,2718.43,1,Support Renewal,EMEA
+2026-04-28,3983.64,1,Support Renewal,North America
+2026-04-28,6768.25,1,Implementation,EMEA
+2026-04-28,12598.18,1,Support Renewal,LATAM
+2026-04-28,18345.96,1,Platform License,LATAM
+2026-04-28,22005.48,1,Platform License,North America
+2026-04-28,1304.48,1,Support Renewal,North America
+2026-04-28,13293.04,1,Platform License,EMEA
+2026-04-28,1919.46,1,Support Renewal,EMEA
+2026-04-28,4997.13,1,Support Renewal,EMEA
+2026-04-29,27855.68,1,Platform License,North America
+2026-04-29,3335.18,1,Support Renewal,LATAM
+2026-04-29,2053.39,1,Support Renewal,EMEA
+2026-04-29,36470.55,1,Platform License,EMEA
+2026-04-29,2496.28,1,Support Renewal,North America
+2026-04-29,4205.4,1,Platform License,North America
+2026-04-29,42687.02,1,Platform License,EMEA
+2026-04-29,4220.68,1,Support Renewal,North America
+2026-04-30,4750.61,1,Support Renewal,North America
+2026-04-30,13640.15,1,Platform License,North America
+2026-04-30,1666.78,1,Support Renewal,North America
+2026-04-30,11631.22,1,Platform License,LATAM
+2026-04-30,6618.84,1,Implementation,LATAM
+2026-04-30,15108.35,1,Platform License,LATAM
+2026-05-01,5646.5,1,Implementation,North America
+2026-05-01,5181.66,1,Support Renewal,EMEA
+2026-05-01,2416.28,1,Support Renewal,EMEA
+2026-05-01,22123.59,1,Platform License,LATAM
+2026-05-01,14093.53,1,Platform License,North America
+2026-05-01,2492.75,1,Support Renewal,LATAM
+2026-05-01,877.02,1,Support Renewal,North America
+2026-05-04,3556.99,1,Support Renewal,North America
+2026-05-04,4818.83,1,Platform License,North America
+2026-05-04,1511.17,1,Support Renewal,North America
+2026-05-04,11773.82,1,Platform License,North America
+2026-05-04,7990.09,1,Support Renewal,EMEA
+2026-05-04,13996.85,1,Implementation,North America
+2026-05-04,9814.25,1,Platform License,North America
+2026-05-04,16039.5,1,Platform License,North America
+2026-05-04,265000.0,1,Platform License,North America
+2026-05-05,4083.14,1,Support Renewal,LATAM
+2026-05-05,14351.18,1,Platform License,LATAM
+2026-05-05,7471.42,1,Platform License,EMEA
+2026-05-05,3971.62,1,Implementation,EMEA
+2026-05-06,6720.25,1,Support Renewal,EMEA
+2026-05-06,7513.81,1,Implementation,North America
+2026-05-06,3489.56,1,Support Renewal,EMEA
+2026-05-06,9949.09,1,Implementation,LATAM
+2026-05-06,4181.39,1,Support Renewal,EMEA
+2026-05-07,9043.83,1,Platform License,EMEA
+2026-05-07,11559.4,1,Platform License,North America
+2026-05-07,1044.22,1,Support Renewal,North America
+2026-05-07,19916.37,1,Platform License,EMEA
+2026-05-07,4877.29,1,Implementation,LATAM
+2026-05-07,3015.86,1,Support Renewal,North America
+2026-05-08,8928.08,1,Implementation,LATAM
+2026-05-08,3628.18,1,Implementation,EMEA
+2026-05-08,19141.13,1,Implementation,EMEA
+2026-05-08,14110.48,1,Implementation,LATAM
+2026-05-11,4104.48,1,Platform License,EMEA
+2026-05-11,32463.74,1,Platform License,LATAM
+2026-05-11,6799.54,1,Implementation,LATAM
+2026-05-11,2987.76,1,Implementation,North America
+2026-05-12,11267.06,1,Platform License,LATAM
+2026-05-12,5742.9,1,Implementation,EMEA
+2026-05-12,13953.91,1,Implementation,North America
+2026-05-12,6118.8,1,Support Renewal,North America
+2026-05-12,3391.92,1,Support Renewal,LATAM
+2026-05-12,50033.24,1,Platform License,LATAM
+2026-05-13,5660.06,1,Platform License,North America
+2026-05-13,6515.08,1,Platform License,North America
+2026-05-13,6488.83,1,Implementation,North America
+2026-05-13,1513.47,1,Implementation,EMEA
+2026-05-13,3004.84,1,Support Renewal,EMEA
+2026-05-13,10706.04,1,Platform License,LATAM
+2026-05-14,11284.67,1,Platform License,North America
+2026-05-14,9329.97,1,Platform License,North America
+2026-05-14,7505.86,1,Platform License,EMEA
+2026-05-14,1900.18,1,Implementation,EMEA
+2026-05-14,21471.68,1,Platform License,North America
+2026-05-14,5983.59,1,Support Renewal,LATAM
+2026-05-14,12447.72,1,Support Renewal,North America
+2026-05-14,10707.05,1,Platform License,North America
+2026-05-14,8940.0,1,Support Renewal,North America
+2026-05-14,8861.24,1,Platform License,EMEA
+2026-05-15,3407.43,1,Platform License,North America
+2026-05-15,37188.07,1,Platform License,LATAM
+2026-05-15,16943.63,1,Platform License,EMEA
+2026-05-15,3887.7,1,Support Renewal,EMEA
+2026-05-15,3353.43,1,Implementation,EMEA
+2026-05-18,762.47,1,Support Renewal,North America
+2026-05-18,2965.2,1,Support Renewal,EMEA
+2026-05-18,1716.99,1,Support Renewal,North America
+2026-05-18,16454.08,1,Platform License,EMEA
+2026-05-18,31155.5,1,Implementation,EMEA
+2026-05-18,23637.88,1,Platform License,LATAM
+2026-05-18,9318.1,1,Implementation,North America
+2026-05-19,24404.53,1,Platform License,North America
+2026-05-19,6122.8,1,Support Renewal,LATAM
+2026-05-19,3613.59,1,Support Renewal,North America
+2026-05-19,4153.86,1,Implementation,LATAM
+2026-05-19,9655.49,1,Implementation,North America
+2026-05-20,1431.45,1,Support Renewal,North America
+2026-05-20,20311.01,1,Implementation,EMEA
+2026-05-20,7403.83,1,Implementation,North America
+2026-05-20,3397.32,1,Implementation,North America
+2026-05-20,16534.79,1,Platform License,EMEA
+2026-05-20,2584.85,1,Platform License,EMEA
+2026-05-20,12092.51,1,Platform License,EMEA
+2026-05-20,31562.2,1,Platform License,EMEA
+2026-05-21,24031.38,1,Platform License,North America
+2026-05-21,4364.51,1,Support Renewal,EMEA
+2026-05-21,15839.61,1,Implementation,EMEA
+2026-05-21,13995.39,1,Platform License,North America
+2026-05-21,2075.73,1,Support Renewal,EMEA
+2026-05-21,2462.04,1,Support Renewal,EMEA
+2026-05-22,52491.98,1,Platform License,North America
+2026-05-22,4337.23,1,Support Renewal,EMEA
+2026-05-22,10869.76,1,Implementation,LATAM
+2026-05-22,12214.63,1,Support Renewal,North America
+2026-05-22,32606.55,1,Platform License,EMEA
+2026-05-22,5785.61,1,Support Renewal,North America
+2026-05-22,6168.4,1,Implementation,North America
+2026-05-22,31064.57,1,Platform License,North America
+2026-05-22,9989.1,1,Platform License,EMEA
+2026-05-22,2269.33,1,Support Renewal,North America
+2026-05-22,5286.05,1,Implementation,North America
+2026-05-25,13416.05,1,Implementation,EMEA
+2026-05-25,8747.5,1,Support Renewal,North America
+2026-05-25,19860.66,1,Support Renewal,North America
+2026-05-25,13857.36,1,Implementation,EMEA
+2026-05-26,9347.86,1,Platform License,North America
+2026-05-26,5630.05,1,Implementation,EMEA
+2026-05-26,25980.68,1,Platform License,North America
+2026-05-26,5843.14,1,Implementation,EMEA
+2026-05-26,5667.58,1,Support Renewal,North America
+2026-05-26,4411.05,1,Support Renewal,North America
+2026-05-26,9383.32,1,Support Renewal,North America
+2026-05-26,2026.68,1,Support Renewal,EMEA
+2026-05-26,5398.55,1,Support Renewal,EMEA
+2026-05-27,5962.32,1,Implementation,North America
+2026-05-27,4608.64,1,Support Renewal,North America
+2026-05-27,4865.59,1,Support Renewal,North America
+2026-05-27,21033.14,1,Platform License,LATAM
+2026-05-27,28560.31,1,Platform License,North America
+2026-05-27,5114.12,1,Implementation,North America
+2026-05-27,2637.12,1,Support Renewal,LATAM
+2026-05-27,4397.94,1,Platform License,North America
+2026-05-27,28012.62,1,Platform License,LATAM
+2026-05-27,1163.42,1,Support Renewal,North America
+2026-05-28,3010.81,1,Implementation,North America
+2026-05-28,4540.34,1,Support Renewal,EMEA
+2026-05-28,6901.29,1,Implementation,North America
+2026-05-28,5714.73,1,Support Renewal,North America
+2026-05-28,9419.81,1,Platform License,North America
+2026-05-28,2707.01,1,Support Renewal,EMEA
+2026-05-29,26738.2,1,Platform License,EMEA
+2026-05-29,12574.04,1,Platform License,North America
+2026-05-29,15594.2,1,Platform License,LATAM
+2026-05-29,53429.17,1,Platform License,North America
+2026-05-29,6800.96,1,Platform License,North America
+2026-05-29,2729.2,1,Implementation,EMEA
+2026-05-29,8981.92,1,Platform License,North America
+2026-06-01,5133.2,1,Implementation,EMEA
+2026-06-01,8892.41,1,Platform License,LATAM
+2026-06-01,1649.24,1,Support Renewal,EMEA
+2026-06-01,5750.09,1,Support Renewal,North America
+2026-06-01,4978.43,1,Implementation,North America
+2026-06-02,12874.69,1,Platform License,EMEA
+2026-06-02,11012.28,1,Platform License,North America
+2026-06-02,2224.07,1,Support Renewal,LATAM
+2026-06-02,3331.42,1,Implementation,EMEA
+2026-06-02,3329.82,1,Platform License,EMEA
+2026-06-02,74183.07,1,Platform License,LATAM
+2026-06-02,9903.94,1,Implementation,LATAM
+2026-06-03,13194.65,1,Implementation,EMEA
+2026-06-03,6550.19,1,Implementation,North America
+2026-06-04,3589.1,1,Implementation,EMEA
+2026-06-04,21821.55,1,Platform License,EMEA
+2026-06-04,5649.85,1,Implementation,North America
+2026-06-04,2812.69,1,Support Renewal,North America
+2026-06-04,23100.35,1,Platform License,North America
+2026-06-04,10726.8,1,Platform License,North America
+2026-06-04,28726.91,1,Platform License,North America
+2026-06-04,2911.43,1,Support Renewal,North America
+2026-06-04,11698.33,1,Support Renewal,North America
+2026-06-05,9716.64,1,Platform License,EMEA
+2026-06-05,7507.21,1,Platform License,North America
+2026-06-05,11634.06,1,Platform License,North America
+2026-06-05,2475.15,1,Support Renewal,North America
+2026-06-05,9736.61,1,Platform License,LATAM
+2026-06-05,12484.75,1,Platform License,North America
+2026-06-05,4375.2,1,Support Renewal,North America
+2026-06-05,2794.43,1,Implementation,North America
+2026-06-08,10655.74,1,Support Renewal,EMEA
+2026-06-08,22203.23,1,Platform License,North America
+2026-06-08,8023.59,1,Platform License,North America
+2026-06-08,6430.69,1,Support Renewal,North America
+2026-06-08,1701.12,1,Implementation,LATAM
+2026-06-08,5627.33,1,Implementation,North America
+2026-06-08,20645.48,1,Platform License,EMEA
+2026-06-08,1548.48,1,Support Renewal,North America
+2026-06-08,13138.32,1,Platform License,EMEA
+2026-06-08,23602.54,1,Implementation,EMEA
+2026-06-08,5709.87,1,Platform License,LATAM
+2026-06-09,7507.05,1,Platform License,North America
+2026-06-09,17935.09,1,Platform License,LATAM
+2026-06-09,2026.53,1,Support Renewal,North America
+2026-06-09,2283.78,1,Support Renewal,EMEA
+2026-06-09,5351.35,1,Implementation,EMEA
+2026-06-10,4543.53,1,Implementation,LATAM
+2026-06-10,12917.6,1,Platform License,LATAM
+2026-06-10,4675.36,1,Implementation,North America
+2026-06-10,1129.16,1,Support Renewal,North America
+2026-06-10,3500.5,1,Support Renewal,EMEA
+2026-06-10,4970.94,1,Implementation,EMEA
+2026-06-10,6591.8,1,Implementation,North America
+2026-06-10,6909.03,1,Implementation,North America
+2026-06-10,2863.48,1,Support Renewal,LATAM
+2026-06-11,4728.0,1,Support Renewal,EMEA
+2026-06-11,7115.29,1,Platform License,LATAM
+2026-06-11,13062.97,1,Implementation,North America
+2026-06-11,2434.44,1,Support Renewal,North America
+2026-06-11,7486.01,1,Implementation,North America
+2026-06-11,6841.52,1,Support Renewal,LATAM
+2026-06-11,2986.83,1,Support Renewal,North America
+2026-06-12,28667.11,1,Platform License,North America
+2026-06-12,30990.38,1,Platform License,North America
+2026-06-12,7965.14,1,Platform License,LATAM
+2026-06-12,6925.19,1,Support Renewal,EMEA
+2026-06-12,32687.63,1,Platform License,EMEA
+2026-06-12,7624.53,1,Implementation,EMEA
+2026-06-12,8467.53,1,Implementation,North America
+2026-06-12,3545.68,1,Support Renewal,EMEA
+2026-06-15,5362.77,1,Implementation,LATAM
+2026-06-15,15859.55,1,Platform License,North America
+2026-06-15,2452.09,1,Support Renewal,LATAM
+2026-06-15,952.55,1,Implementation,North America
+2026-06-15,8200.81,1,Implementation,North America
+2026-06-16,15303.84,1,Platform License,North America
+2026-06-16,43720.57,1,Platform License,EMEA
+2026-06-16,2107.7,1,Implementation,EMEA
+2026-06-16,2161.05,1,Support Renewal,North America
+2026-06-16,11740.52,1,Platform License,LATAM
+2026-06-17,21188.7,1,Platform License,EMEA
+2026-06-17,14483.55,1,Platform License,EMEA
+2026-06-17,18545.01,1,Platform License,North America
+2026-06-17,3108.11,1,Support Renewal,North America
+2026-06-18,10738.47,1,Platform License,North America
+2026-06-18,2518.01,1,Support Renewal,North America
+2026-06-18,6907.72,1,Implementation,North America
+2026-06-18,11154.7,1,Implementation,LATAM
+2026-06-18,1102.71,1,Support Renewal,North America
+2026-06-18,5352.56,1,Implementation,North America
+2026-06-19,6434.46,1,Implementation,EMEA
+2026-06-19,1828.22,1,Support Renewal,North America
+2026-06-22,15605.11,1,Implementation,EMEA
+2026-06-22,8459.62,1,Support Renewal,North America
+2026-06-22,1804.06,1,Support Renewal,EMEA
+2026-06-22,8562.18,1,Support Renewal,North America
+2026-06-22,2046.68,1,Support Renewal,North America
+2026-06-22,3289.26,1,Support Renewal,North America
+2026-06-23,4033.65,1,Implementation,EMEA
+2026-06-23,9953.3,1,Platform License,North America
+2026-06-23,5672.99,1,Support Renewal,North America
+2026-06-23,4665.42,1,Platform License,North America
+2026-06-23,8174.07,1,Implementation,LATAM
+2026-06-23,3533.66,1,Support Renewal,EMEA
+2026-06-23,11940.02,1,Platform License,North America
+2026-06-23,33099.57,1,Platform License,North America
+2026-06-23,23808.89,1,Platform License,North America
+2026-06-24,15946.57,1,Implementation,EMEA
+2026-06-24,2235.96,1,Support Renewal,North America
+2026-06-24,36965.04,1,Platform License,EMEA
+2026-06-25,2340.27,1,Support Renewal,North America
+2026-06-25,8128.8,1,Implementation,North America
+2026-06-25,27965.44,1,Platform License,LATAM
+2026-06-25,5173.75,1,Implementation,North America
+2026-06-25,20019.87,1,Platform License,North America
+2026-06-25,15153.23,1,Platform License,North America
+2026-06-25,6340.33,1,Support Renewal,EMEA
+2026-06-26,1433.53,1,Support Renewal,LATAM
+2026-06-26,21000.18,1,Platform License,North America
+2026-06-26,24549.05,1,Implementation,EMEA
+2026-06-26,15396.84,1,Platform License,North America
+2026-06-26,5274.05,1,Implementation,EMEA
+2026-06-29,1634.26,1,Support Renewal,North America
+2026-06-29,17832.82,1,Platform License,EMEA
+2026-06-29,45506.35,1,Platform License,North America
+2026-06-29,6524.86,1,Support Renewal,North America
+2026-06-29,15983.76,1,Platform License,EMEA
+2026-06-29,5905.19,1,Platform License,LATAM
+2026-06-29,5894.47,1,Support Renewal,North America
+2026-06-29,13925.55,1,Platform License,North America
+2026-06-30,12848.59,1,Platform License,North America
+2026-06-30,24987.21,1,Platform License,EMEA
+2026-06-30,3475.75,1,Support Renewal,LATAM
+2026-06-30,4402.23,1,Implementation,LATAM
+2026-06-30,9457.56,1,Support Renewal,LATAM
+2026-06-30,5532.09,1,Support Renewal,LATAM
+2026-06-30,29941.06,1,Platform License,North America
+2026-06-30,13150.81,1,Platform License,EMEA
+2026-06-30,7004.19,1,Implementation,EMEA
+2026-06-30,9326.16,1,Platform License,North America
+2026-06-30,1977.06,1,Support Renewal,North America
+2026-07-01,1892.91,1,Support Renewal,LATAM
+2026-07-01,3726.09,1,Support Renewal,LATAM
+2026-07-01,50617.46,1,Platform License,North America
+2026-07-01,26922.69,1,Implementation,North America
+2026-07-01,23328.93,1,Platform License,LATAM
+2026-07-01,3976.06,1,Implementation,LATAM
+2026-07-01,10197.83,1,Support Renewal,North America
+2026-07-01,4580.07,1,Implementation,North America
+2026-07-02,5706.67,1,Support Renewal,EMEA
+2026-07-02,15289.75,1,Platform License,North America
+2026-07-02,10774.43,1,Platform License,North America
+2026-07-02,2610.66,1,Implementation,North America
+2026-07-02,4129.16,1,Support Renewal,EMEA
+2026-07-03,8630.59,1,Implementation,North America
+2026-07-03,1470.95,1,Support Renewal,EMEA
+2026-07-03,3481.81,1,Implementation,North America
+2026-07-03,4922.92,1,Implementation,North America
+2026-07-06,5887.75,1,Support Renewal,North America
+2026-07-06,19235.86,1,Platform License,EMEA
+2026-07-06,25961.06,1,Implementation,North America
+2026-07-06,39659.84,1,Platform License,North America
+2026-07-06,38648.02,1,Platform License,North America
+2026-07-06,5555.17,1,Support Renewal,EMEA
+2026-07-06,16945.49,1,Platform License,North America
+2026-07-06,3053.82,1,Support Renewal,North America
+2026-07-07,12475.68,1,Platform License,EMEA
+2026-07-07,4610.68,1,Support Renewal,EMEA
+2026-07-07,5006.31,1,Support Renewal,North America
+2026-07-07,13962.24,1,Implementation,EMEA
+2026-07-07,51039.52,1,Platform License,EMEA
+2026-07-07,2515.93,1,Support Renewal,North America
+2026-07-07,6488.09,1,Implementation,North America
+2026-07-08,718.07,1,Support Renewal,EMEA
+2026-07-08,23034.94,1,Platform License,North America
+2026-07-08,7572.31,1,Platform License,North America
+2026-07-08,3466.07,1,Support Renewal,North America
+2026-07-08,5235.08,1,Support Renewal,EMEA
+2026-07-08,4008.78,1,Support Renewal,North America
+2026-07-09,5458.66,1,Support Renewal,North America
+2026-07-09,12801.98,1,Platform License,LATAM
+2026-07-09,3151.58,1,Implementation,North America
+2026-07-09,1761.35,1,Implementation,North America
+2026-07-09,14653.03,1,Implementation,North America
+2026-07-09,705.03,1,Support Renewal,LATAM
+2026-07-09,56100.71,1,Platform License,LATAM
+2026-07-09,35247.94,1,Platform License,North America
+2026-07-09,18904.82,1,Platform License,North America
+2026-07-09,32404.62,1,Platform License,North America
+2026-07-10,2581.8,1,Support Renewal,North America
+2026-07-10,9604.73,1,Platform License,EMEA
+2026-07-10,6290.36,1,Implementation,North America
+2026-07-10,9587.5,1,Implementation,EMEA
+2026-07-10,5338.21,1,Support Renewal,EMEA
+2026-07-10,2287.28,1,Support Renewal,North America
+2026-07-10,5957.41,1,Implementation,North America
+2026-07-13,9521.28,1,Support Renewal,EMEA
+2026-07-13,7695.86,1,Support Renewal,EMEA
+2026-07-13,777.29,1,Support Renewal,North America
+2026-07-13,7895.85,1,Platform License,North America
+2026-07-13,11665.97,1,Support Renewal,North America
+2026-07-13,15567.96,1,Implementation,LATAM
+2026-07-13,9499.05,1,Implementation,North America
+2026-07-13,1278.53,1,Implementation,North America
+2026-07-13,3742.3,1,Support Renewal,EMEA
+2026-07-13,3953.18,1,Support Renewal,EMEA
+2026-07-14,10672.49,1,Support Renewal,North America
+2026-07-14,114576.33,1,Platform License,North America
+2026-07-14,5085.91,1,Implementation,North America
+2026-07-14,5470.15,1,Support Renewal,North America
+2026-07-14,8257.5,1,Implementation,EMEA
+2026-07-14,52895.78,1,Platform License,EMEA
+2026-07-15,1621.22,1,Support Renewal,EMEA
+2026-07-15,5278.85,1,Implementation,LATAM
+2026-07-15,4167.3,1,Implementation,LATAM
+2026-07-15,10248.17,1,Implementation,North America
+2026-07-15,8618.47,1,Implementation,North America
+2026-07-15,6026.85,1,Implementation,North America
+2026-07-15,3421.59,1,Implementation,EMEA
+2026-07-15,7885.13,1,Platform License,LATAM
+2026-07-15,2935.01,1,Implementation,EMEA
+2026-07-16,2319.38,1,Implementation,North America
+2026-07-16,11806.88,1,Platform License,North America
+2026-07-16,1640.8,1,Support Renewal,North America
+2026-07-16,6590.54,1,Platform License,North America
+2026-07-16,2596.71,1,Implementation,LATAM
+2026-07-16,1948.55,1,Support Renewal,North America
+2026-07-16,13268.36,1,Platform License,North America
+2026-07-17,9158.88,1,Support Renewal,North America
+2026-07-17,2777.31,1,Implementation,North America
+2026-07-17,5947.46,1,Implementation,North America
+2026-07-17,3511.65,1,Implementation,North America
+2026-07-20,18585.7,1,Support Renewal,EMEA
+2026-07-20,6404.79,1,Support Renewal,EMEA
+2026-07-20,5088.62,1,Support Renewal,North America
+2026-07-20,34361.25,1,Platform License,North America
+2026-07-20,17787.01,1,Implementation,North America
+2026-07-20,23678.48,1,Implementation,North America
+2026-07-20,2774.03,1,Support Renewal,EMEA
+2026-07-20,11665.74,1,Implementation,EMEA
+2026-07-20,3730.59,1,Support Renewal,North America
+2026-07-20,2828.7,1,Support Renewal,LATAM
+2026-07-21,5355.86,1,Implementation,North America
+2026-07-21,26014.22,1,Platform License,North America
+2026-07-21,8574.08,1,Platform License,North America
+2026-07-21,27317.9,1,Platform License,North America
+2026-07-21,31763.52,1,Platform License,EMEA
+2026-07-22,1826.28,1,Support Renewal,North America
+2026-07-22,18944.24,1,Platform License,EMEA
+2026-07-22,3362.25,1,Support Renewal,North America
+2026-07-22,3420.35,1,Support Renewal,North America
+2026-07-22,10613.14,1,Platform License,EMEA
+2026-07-22,1240.49,1,Support Renewal,North America
+2026-07-22,4135.38,1,Implementation,North America
+2026-07-22,3203.87,1,Support Renewal,North America
+2026-07-22,690.29,1,Support Renewal,North America
+2026-07-22,6905.62,1,Implementation,North America
+2026-07-23,23728.97,1,Platform License,North America
+2026-07-23,13247.08,1,Platform License,LATAM
+2026-07-23,4952.87,1,Implementation,EMEA
+2026-07-23,53741.38,1,Platform License,North America
+2026-07-23,9183.11,1,Implementation,EMEA
+2026-07-23,15974.15,1,Platform License,LATAM
+2026-07-23,4263.04,1,Platform License,North America
+2026-07-23,4755.48,1,Implementation,North America
+2026-07-23,665.44,1,Support Renewal,EMEA
+2026-07-23,20963.47,1,Implementation,EMEA
+2026-07-24,2550.03,1,Support Renewal,North America
+2026-07-24,9492.19,1,Platform License,North America
+2026-07-24,44131.61,1,Platform License,EMEA
+2026-07-24,1822.98,1,Support Renewal,EMEA
+2026-07-24,14210.35,1,Implementation,North America
+2026-07-24,1758.98,1,Implementation,EMEA
+2026-07-24,4782.88,1,Implementation,EMEA
+2026-07-24,23270.6,1,Platform License,EMEA
+2026-07-24,35732.58,1,Platform License,LATAM
+2026-07-27,9750.08,1,Platform License,North America
+2026-07-27,4157.27,1,Support Renewal,North America
+2026-07-27,6658.03,1,Implementation,North America
+2026-07-27,15539.54,1,Platform License,North America
+2026-07-27,30682.6,1,Platform License,EMEA
+2026-07-27,22076.28,1,Platform License,EMEA
+2026-07-27,2332.99,1,Support Renewal,North America
+2026-07-27,7908.59,1,Implementation,North America
+2026-07-27,5704.07,1,Implementation,North America
+2026-07-28,7409.65,1,Platform License,EMEA
+2026-07-28,4046.73,1,Implementation,LATAM
+2026-07-28,9549.71,1,Implementation,North America
+2026-07-28,12818.25,1,Implementation,North America
+2026-07-28,1159.18,1,Support Renewal,LATAM
+2026-07-28,35756.09,1,Platform License,North America
+2026-07-29,33088.51,1,Platform License,EMEA
+2026-07-29,1845.08,1,Implementation,North America
+2026-07-29,36332.0,1,Platform License,North America
+2026-07-29,4047.0,1,Support Renewal,North America
+2026-07-29,1749.49,1,Support Renewal,North America
+2026-07-29,10125.45,1,Platform License,North America
+2026-07-29,15733.55,1,Platform License,North America
+2026-07-29,4851.25,1,Support Renewal,North America
+2026-07-29,6568.65,1,Support Renewal,North America
+2026-07-29,16743.26,1,Platform License,North America
+2026-07-30,6325.48,1,Support Renewal,EMEA
+2026-07-30,5487.68,1,Platform License,North America
+2026-07-30,37526.84,1,Platform License,EMEA
+2026-07-30,3434.12,1,Platform License,EMEA
+2026-07-30,3923.88,1,Implementation,LATAM
+2026-07-30,3168.05,1,Support Renewal,North America
+2026-07-30,68272.16,1,Platform License,North America
+2026-07-30,2866.76,1,Support Renewal,EMEA
+2026-07-31,18786.8,1,Implementation,North America
+2026-07-31,2802.46,1,Implementation,EMEA
+2026-07-31,19584.39,1,Platform License,North America
+2026-07-31,10944.58,1,Platform License,EMEA
+2026-07-31,1005.5,1,Support Renewal,EMEA
+2026-07-31,4408.91,1,Platform License,North America
+2026-07-31,9221.86,1,Implementation,North America
+2026-08-03,748.61,1,Support Renewal,North America
+2026-08-03,16152.92,1,Platform License,EMEA
+2026-08-03,6416.6,1,Platform License,EMEA
+2026-08-03,2405.71,1,Implementation,LATAM
+2026-08-03,7732.88,1,Implementation,EMEA
+2026-08-03,7237.59,1,Platform License,North America
+2026-08-03,5295.45,1,Platform License,North America
+2026-08-03,12767.92,1,Platform License,EMEA
+2026-08-03,1108.11,1,Support Renewal,North America
+2026-08-03,11623.48,1,Platform License,North America
+2026-08-03,2383.7,1,Support Renewal,EMEA
+2026-08-03,4568.04,1,Implementation,North America
+2026-08-03,3996.15,1,Platform License,North America
+2026-08-04,2282.36,1,Support Renewal,North America
+2026-08-04,20142.41,1,Platform License,LATAM
+2026-08-04,10839.72,1,Platform License,North America
+2026-08-04,14556.46,1,Platform License,North America
+2026-08-04,1667.07,1,Support Renewal,North America
+2026-08-04,2601.79,1,Support Renewal,LATAM
+2026-08-04,12040.8,1,Implementation,LATAM
+2026-08-04,15193.94,1,Platform License,LATAM
+2026-08-04,20282.34,1,Platform License,North America
+2026-08-04,37609.07,1,Platform License,EMEA
+2026-08-05,7340.14,1,Implementation,North America
+2026-08-05,6608.58,1,Implementation,North America
+2026-08-05,40575.23,1,Platform License,North America
+2026-08-06,2477.87,1,Support Renewal,LATAM
+2026-08-06,1980.08,1,Implementation,EMEA
+2026-08-06,20798.55,1,Platform License,North America
+2026-08-06,9757.18,1,Implementation,EMEA
+2026-08-07,2249.4,1,Implementation,EMEA
+2026-08-07,54270.32,1,Implementation,North America
+2026-08-07,20374.83,1,Platform License,EMEA
+2026-08-07,9485.41,1,Platform License,North America
+2026-08-07,1978.5,1,Support Renewal,North America
+2026-08-07,13532.38,1,Platform License,North America
+2026-08-07,1052.35,1,Support Renewal,EMEA
+2026-08-10,18535.52,1,Support Renewal,North America
+2026-08-10,3697.48,1,Support Renewal,LATAM
+2026-08-10,3105.45,1,Support Renewal,EMEA
+2026-08-10,3073.85,1,Implementation,North America
+2026-08-10,2843.9,1,Implementation,North America
+2026-08-10,8701.57,1,Platform License,North America
+2026-08-10,2953.13,1,Support Renewal,LATAM
+2026-08-11,1811.54,1,Support Renewal,North America
+2026-08-11,6810.51,1,Implementation,North America
+2026-08-11,8808.18,1,Support Renewal,North America
+2026-08-11,57643.13,1,Platform License,North America
+2026-08-11,2838.54,1,Platform License,North America
+2026-08-11,11826.24,1,Support Renewal,North America
+2026-08-11,6150.97,1,Implementation,EMEA
+2026-08-11,10521.83,1,Platform License,EMEA
+2026-08-11,8251.21,1,Platform License,EMEA
+2026-08-12,26067.64,1,Platform License,North America
+2026-08-12,2079.71,1,Support Renewal,North America
+2026-08-12,2440.36,1,Implementation,North America
+2026-08-12,4491.99,1,Support Renewal,EMEA
+2026-08-12,25403.27,1,Platform License,EMEA
+2026-08-12,5812.99,1,Support Renewal,North America
+2026-08-12,2943.42,1,Implementation,North America
+2026-08-12,2263.3,1,Support Renewal,North America
+2026-08-12,37136.79,1,Platform License,North America
+2026-08-12,3130.57,1,Platform License,North America
+2026-08-13,18510.25,1,Platform License,EMEA
+2026-08-13,20373.72,1,Platform License,EMEA
+2026-08-13,3405.23,1,Support Renewal,North America
+2026-08-13,3081.57,1,Implementation,North America
+2026-08-13,4840.97,1,Implementation,North America
+2026-08-13,5433.64,1,Support Renewal,LATAM
+2026-08-13,9572.02,1,Implementation,North America
+2026-08-13,5817.42,1,Platform License,North America
+2026-08-14,13484.18,1,Platform License,EMEA
+2026-08-14,4446.17,1,Support Renewal,North America
+2026-08-14,41459.77,1,Platform License,North America
+2026-08-14,7910.65,1,Implementation,North America
+2026-08-14,2887.19,1,Support Renewal,EMEA
+2026-08-14,5598.31,1,Implementation,North America
+2026-08-14,9590.95,1,Platform License,North America
+2026-08-14,3095.7,1,Platform License,North America
+2026-08-17,9787.64,1,Implementation,North America
+2026-08-17,1791.62,1,Implementation,EMEA
+2026-08-17,906.44,1,Support Renewal,North America
+2026-08-17,9755.08,1,Platform License,EMEA
+2026-08-17,6886.33,1,Implementation,North America
+2026-08-17,11956.62,1,Platform License,LATAM
+2026-08-17,35260.78,1,Platform License,EMEA
+2026-08-17,3704.63,1,Implementation,EMEA
+2026-08-17,1557.19,1,Support Renewal,North America
+2026-08-18,4517.04,1,Support Renewal,North America
+2026-08-18,4488.59,1,Implementation,North America
+2026-08-18,54329.01,1,Platform License,EMEA
+2026-08-18,6529.49,1,Support Renewal,LATAM
+2026-08-18,5917.46,1,Implementation,EMEA
+2026-08-18,12204.61,1,Implementation,North America
+2026-08-18,7967.81,1,Support Renewal,EMEA
+2026-08-18,5022.73,1,Support Renewal,North America
+2026-08-18,13864.76,1,Support Renewal,North America
+2026-08-18,10592.3,1,Platform License,EMEA
+2026-08-18,26079.62,1,Platform License,North America
+2026-08-18,8850.62,1,Implementation,EMEA
+2026-08-18,14141.81,1,Platform License,EMEA
+2026-08-19,1239.01,1,Support Renewal,LATAM
+2026-08-19,41336.08,1,Platform License,North America
+2026-08-19,4635.02,1,Implementation,North America
+2026-08-19,11147.55,1,Implementation,EMEA
+2026-08-19,25546.12,1,Platform License,LATAM
+2026-08-19,32751.09,1,Platform License,North America
+2026-08-19,4501.42,1,Support Renewal,North America
+2026-08-20,3153.55,1,Support Renewal,North America
+2026-08-20,2361.12,1,Support Renewal,LATAM
+2026-08-20,35563.2,1,Implementation,EMEA
+2026-08-21,2623.68,1,Support Renewal,LATAM
+2026-08-21,1672.05,1,Support Renewal,EMEA
+2026-08-21,7431.39,1,Implementation,North America
+2026-08-21,8991.58,1,Implementation,North America
+2026-08-21,3163.55,1,Platform License,North America
+2026-08-21,2938.72,1,Implementation,North America
+2026-08-21,9683.76,1,Platform License,North America
+2026-08-21,9583.66,1,Implementation,North America
+2026-08-21,3477.23,1,Support Renewal,North America
+2026-08-24,3148.11,1,Support Renewal,North America
+2026-08-24,8267.5,1,Implementation,EMEA
+2026-08-24,8475.23,1,Platform License,North America
+2026-08-24,2835.19,1,Implementation,EMEA
+2026-08-24,1610.18,1,Platform License,North America
+2026-08-25,3899.4,1,Support Renewal,EMEA
+2026-08-25,3417.58,1,Implementation,North America
+2026-08-25,2517.21,1,Support Renewal,LATAM
+2026-08-25,7919.68,1,Platform License,EMEA
+2026-08-25,1180.55,1,Support Renewal,EMEA
+2026-08-25,11431.71,1,Platform License,North America
+2026-08-25,5359.93,1,Support Renewal,North America
+2026-08-25,10256.11,1,Implementation,LATAM
+2026-08-26,5106.09,1,Implementation,EMEA
+2026-08-26,5298.15,1,Implementation,North America
+2026-08-26,8920.57,1,Implementation,EMEA
+2026-08-26,28381.95,1,Platform License,North America
+2026-08-26,35588.44,1,Platform License,North America
+2026-08-26,8581.8,1,Implementation,EMEA
+2026-08-26,3603.17,1,Implementation,LATAM
+2026-08-26,17968.33,1,Platform License,EMEA
+2026-08-26,6618.36,1,Support Renewal,North America
+2026-08-26,7749.23,1,Platform License,North America
+2026-08-26,2972.58,1,Implementation,North America
+2026-08-26,2183.29,1,Support Renewal,North America
+2026-08-27,21343.47,1,Implementation,EMEA
+2026-08-27,8508.4,1,Platform License,LATAM
+2026-08-27,6385.74,1,Support Renewal,EMEA
+2026-08-27,18294.61,1,Platform License,North America
+2026-08-27,4029.95,1,Implementation,North America
+2026-08-27,4722.54,1,Support Renewal,North America
+2026-08-27,12287.57,1,Platform License,North America
+2026-08-27,8038.14,1,Platform License,North America
+2026-08-27,11292.24,1,Platform License,EMEA
+2026-08-27,4849.57,1,Implementation,EMEA
+2026-08-27,12953.27,1,Platform License,LATAM
+2026-08-27,10818.62,1,Platform License,LATAM
+2026-08-28,11251.14,1,Support Renewal,EMEA
+2026-08-28,25760.29,1,Platform License,North America
+2026-08-28,4208.55,1,Platform License,North America
+2026-08-28,38983.64,1,Platform License,North America
+2026-08-28,8829.57,1,Implementation,North America
+2026-08-28,9260.46,1,Platform License,North America
+2026-08-28,6256.19,1,Support Renewal,EMEA
+2026-08-31,23664.48,1,Implementation,North America
+2026-08-31,1331.11,1,Support Renewal,EMEA
+2026-08-31,4468.97,1,Implementation,EMEA
+2026-08-31,3574.46,1,Implementation,EMEA
+2026-08-31,6212.34,1,Implementation,EMEA
+2026-08-31,8544.98,1,Platform License,EMEA
