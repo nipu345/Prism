@@ -9,11 +9,21 @@ router = APIRouter()
 
 REQUIRED_COLUMNS = {"date", "revenue", "units_sold", "product", "region"}
 
+CONTENT_TYPES = {
+    ".csv": "text/csv",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".xls": "application/vnd.ms-excel",
+}
+
+
+class SalesFileError(ValueError):
+    """A file that can't be turned into the five standard columns."""
+
 
 def detect_columns(df: pd.DataFrame) -> dict:
     mapping = {}
     for col in df.columns:
-        col_lower = col.lower().strip()
+        col_lower = str(col).lower().strip()
         if "date" in col_lower or "time" in col_lower:
             mapping["date"] = col
         elif "revenue" in col_lower or "sales" in col_lower or "amount" in col_lower:
@@ -25,6 +35,50 @@ def detect_columns(df: pd.DataFrame) -> dict:
         elif "region" in col_lower or "location" in col_lower or "area" in col_lower:
             mapping["region"] = col
     return mapping
+
+
+def load_sales_file(contents: bytes, filename: str) -> pd.DataFrame:
+    """Parse an uploaded CSV/Excel file into the five standard columns.
+
+    Runs when a file is uploaded AND again when it's analyzed. It has to be
+    the same function in both places: storage keeps the original file, so
+    anything done to it on upload (reading .xlsx as a spreadsheet, treating
+    'Sales Amount' as revenue) must be redone when it's read back, or the
+    analysis sees columns it doesn't recognize and fails.
+    """
+    name = (filename or "").lower()
+    ext = next((e for e in CONTENT_TYPES if name.endswith(e)), None)
+    if ext is None:
+        raise SalesFileError("Only CSV and Excel files are supported")
+
+    try:
+        df = pd.read_csv(io.BytesIO(contents)) if ext == ".csv" else pd.read_excel(io.BytesIO(contents))
+    except Exception:
+        raise SalesFileError(f"Couldn't read this file as {'CSV' if ext == '.csv' else 'Excel'}")
+
+    if df.empty:
+        raise SalesFileError("File contains no rows")
+
+    mapping = detect_columns(df)
+    missing = REQUIRED_COLUMNS - set(mapping)
+    if missing:
+        raise SalesFileError(
+            f"Couldn't find a column for: {', '.join(sorted(missing))}. "
+            f"Your columns were: {', '.join(map(str, df.columns))}"
+        )
+
+    df = df.rename(columns={v: k for k, v in mapping.items()})
+
+    try:
+        pd.to_datetime(df["date"])
+        pd.to_numeric(df["revenue"])
+        pd.to_numeric(df["units_sold"])
+    except Exception:
+        raise SalesFileError(
+            "Could not parse the date/revenue/units_sold columns — check for missing or non-numeric values"
+        )
+
+    return df
 
 
 @router.post("/upload")
@@ -39,44 +93,19 @@ async def upload_file(
         if not contents:
             raise HTTPException(status_code=400, detail="Uploaded file is empty")
 
-        if file.filename.endswith(".csv"):
-            df = pd.read_csv(io.BytesIO(contents))
-        elif file.filename.endswith((".xlsx", ".xls")):
-            df = pd.read_excel(io.BytesIO(contents))
-        else:
-            raise HTTPException(status_code=400, detail="Only CSV and Excel files are supported")
-
-        if df.empty:
-            raise HTTPException(status_code=400, detail="File contains no rows")
-
-        col_mapping = detect_columns(df)
-        missing = REQUIRED_COLUMNS - set(col_mapping.keys())
-
-        if missing:
-            return {
-                "status": "warning",
-                "message": f"Could not detect columns: {sorted(missing)}. Please check your file.",
-                "detected_columns": col_mapping,
-                "your_columns": list(df.columns)
-            }
-
-        df = df.rename(columns={v: k for k, v in col_mapping.items()})
-
+        # a bad file is now a 400 with the reason, rather than a 200 "warning"
+        # the frontend never read (it went on to analyze upload_id=undefined)
         try:
-            pd.to_datetime(df["date"])
-            pd.to_numeric(df["revenue"])
-            pd.to_numeric(df["units_sold"])
-        except Exception:
-            raise HTTPException(
-                status_code=400,
-                detail="Could not parse the date/revenue/units_sold columns — check for missing or non-numeric values"
-            )
+            df = load_sales_file(contents, file.filename)
+        except SalesFileError as e:
+            raise HTTPException(status_code=400, detail=str(e))
 
+        ext = next(e for e in CONTENT_TYPES if file.filename.lower().endswith(e))
         storage_path = f"{user.id}/{int(time.time())}_{file.filename}"
         supabase.storage.from_("uploads").upload(
             path=storage_path,
             file=contents,
-            file_options={"content-type": "text/csv"}
+            file_options={"content-type": CONTENT_TYPES[ext]}
         )
 
         try:
@@ -91,15 +120,11 @@ async def upload_file(
             supabase.storage.from_("uploads").remove([storage_path])
             raise
 
-        upload_id = upload_record.data[0]["id"]
-
         return {
             "status": "success",
-            "upload_id": upload_id,
+            "upload_id": upload_record.data[0]["id"],
             "filename": file.filename,
             "rows": len(df),
-            "columns_detected": col_mapping,
-            "preview": df.head(3).to_dict(orient="records")
         }
 
     except HTTPException:
