@@ -4,8 +4,7 @@ from auth import get_current_user_and_company
 from agents import run_all_agents
 from llm import GeminiNarrator
 from notify import notify_report_ready
-import pandas as pd
-import io
+from uploads import load_sales_file, SalesFileError
 
 router = APIRouter()
 narrator = GeminiNarrator()
@@ -26,7 +25,15 @@ async def analyze(upload_id: str, auth=Depends(get_current_user_and_company)):
         if not owner.data or owner.data[0]["company_id"] != company_id:
             raise HTTPException(status_code=403, detail="You do not have access to this upload")
 
-        storage_path = upload_data["storage_url"]
+        # storage holds the file exactly as uploaded, so it goes back through
+        # the same parser the upload used (Excel, header matching). Parsing
+        # happens before the report row exists, so an unreadable file fails
+        # cleanly instead of leaving a report stuck in "processing".
+        file_bytes = supabase.storage.from_("uploads").download(upload_data["storage_url"])
+        try:
+            df = load_sales_file(file_bytes, upload_data["filename"])
+        except SalesFileError as e:
+            raise HTTPException(status_code=400, detail=str(e))
 
         report = supabase.table("reports").insert({
             "upload_id": upload_id,
@@ -34,9 +41,6 @@ async def analyze(upload_id: str, auth=Depends(get_current_user_and_company)):
             "status": "processing"
         }).execute()
         report_id = report.data[0]["id"]
-
-        file_bytes = supabase.storage.from_("uploads").download(storage_path)
-        df = pd.read_csv(io.BytesIO(file_bytes))
 
         results = run_all_agents(df)
         ai_summary = narrator.summarize(results)
