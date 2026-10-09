@@ -1,102 +1,61 @@
 # Prism
 
-Upload your company's sales history and get back three revenue forecasts —
-cautious, expected, and optimistic — instead of one number you're just
-expected to trust. Each one comes with a real, measured accuracy score,
-plus an AI-written summary of what's driving the outlook.
+2026
 
-## Try it live
+Python · JavaScript · React · FastAPI · Supabase · Gemini
 
-**[prism-olive-eta.vercel.app](https://prism-olive-eta.vercel.app)** — sign
-up, upload `sample_data/demo_sales.csv` (or your own sales data), and see
-all three forecasts for yourself.
+An AI-powered revenue forecasting tool I developed for small and mid-sized businesses. Upload your sales history and Prism gives you three forecasts for the next 30 days: a cautious one, an expected one and an optimistic one. Before any model is allowed to forecast, Prism tests it against your own recent sales, so every forecast comes with a measured accuracy score. Prism also flags unusual sales that could move your numbers and writes a plain-English summary of what's driving the outlook. All of it comes from one CSV or Excel upload.
 
-The backend runs on Render's free tier, which spins down after 15 minutes
-with no traffic. If it's been idle, the first request (usually sign-up)
-can take 30-60 seconds to wake back up. Everything's instant again once it's warm.
+**[Try it live → prism-olive-eta.vercel.app](https://prism-olive-eta.vercel.app)**
 
-## Why Prism
+> The server runs on a free plan and goes to sleep after 15 minutes without traffic. If nobody has used it in a while, your first click (usually signing up) can take 30–60 seconds. After that it runs at normal speed.
 
-Most forecasting tools hand you a single number and expect you to trust it.
-A business owner planning next quarter needs more than that — they need to
-know what happens if things go worse than hoped, what a realistic month
-looks like, and what's achievable if current trends hold. Prism answers all
-three from one upload:
+## What you get
 
-- **A cautious estimate** — what to budget around, so a slow month doesn't catch you off guard
-- **An expected estimate** — the number worth actually planning around
-- **An optimistic estimate** — what's achievable if things keep trending the way they have been
+- **Three forecasts instead of one.** The cautious forecast is the number to budget around, so a slow month doesn't catch you off guard. The expected forecast is the one to plan around. The optimistic forecast shows what's achievable if your current trend holds.
+- **An accuracy score you can trust.** Before forecasting, Prism hides your last two weeks of sales, has each model predict them blind, and checks the guesses against what really happened. The model that does best makes your forecast, and you see its score. If the score is low, Prism tells you so.
+- **The best model for your data, picked for you.** Prism tries several forecasting methods (ARIMA, Holt-Winters and a growth-curve fit) and keeps whichever one wins on your data. You don't need to know which to choose.
+- **Unusual sales, flagged.** Prism checks every individual sale and points out the ones that don't look like the rest, such as an unusually large deal or an unusually quiet day.
+- **A summary in plain English.** Gemini writes a short summary of your outlook, the kind of thing you'd otherwise ask an analyst for. Gemini only sees summary numbers, never your raw sales data.
+- **An email when your report is ready.** You don't have to wait on the page while Prism works.
 
-And instead of just asking you to trust those numbers, every forecast comes
-with its own accuracy score — measured by testing the model against your
-*own* recent sales history before it's ever allowed to predict the future.
-If that accuracy is low, you'll see it, and know to treat the range as a
-wider guess rather than a sure thing. That's the difference between a
-forecast you can actually make decisions with and one you're just hoping is
-right.
+## How to use it
 
-## How it works, one idea at a time
+1. **Sign up** at [prism-olive-eta.vercel.app](https://prism-olive-eta.vercel.app). Teammates from the same company can see each other's reports.
+2. **Upload your sales.** Use a CSV or Excel file with one row per sale. Prism looks for a date, a revenue amount, and optionally units sold, product and region. Your column names don't have to match exactly: headers like `Order Date` or `Sales Amount` are recognized automatically.
+3. **Read your results.** Switch between the Conservative, Moderate and Aggressive tabs. Each tab shows the 30-day forecast, the model that produced it and its accuracy score. The Conservative tab adds a breakdown by region and product. The Aggressive tab lists the unusual sales Prism found.
+4. **If a term is unfamiliar,** open the **Methodology** page in the app. It explains how each model works and walks through a results screen line by line.
 
-Each of these is a separate, simple idea — together they're what produces a
-results screen. The precise technical version of all of this is further
-down, in [The technical pipeline](#the-technical-pipeline).
+## No data of your own? Try a sample
 
-**The three scenarios.** Revenue forecasting is never exact, so instead of
-one guess, Prism produces a range: a lower number, a middle number, and a
-higher number, based on how much the model's own confidence varies. The
-lower end becomes your *conservative* forecast, the middle becomes
-*moderate*, and the higher end becomes *aggressive* — three ways to plan
-for the same underlying prediction.
+[`sample_data/`](sample_data/) has six ready-to-upload files. Each one is shaped like a different kind of business, so each gives a different result:
 
-**Model selection.** There's more than one reasonable way to forecast a
-trend, and no single method wins on every dataset. So instead of
-committing to one, Prism tries a few different forecasting approaches on
-your data and keeps whichever one actually performs best — a step you'd
-otherwise have to do by hand.
-
-**Backtesting.** "Performs best" has to be provable, not assumed. Before
-trusting any model, Prism hides your two most recent weeks of real sales
-data, has each candidate model predict those days blind, then compares the
-guesses to what actually happened. It's a practice exam with a known
-answer key — only the model that scores well on it gets used for your real
-forecast.
-
-**Anomaly detection.** Separately from forecasting, Prism scans every
-individual sale — not just daily totals — for ones that look statistically
-unusual compared to the rest of your data: an unusually large deal, an
-unusually quiet day. These show up as flagged risk factors alongside the
-optimistic forecast, since they're the kind of events that could swing an
-outlook either way.
-
-**AI executive summary.** Once the numbers exist, Prism sends the *summary
-stats* (not your raw data) to Google's Gemini model and asks for a short,
-plain-English paragraph explaining the outlook — the kind of write-up
-you'd otherwise ask an analyst for. This step is optional and never
-required for the forecast itself to work.
-
-**Email notification.** When your report finishes, a small separate
-service emails you a link to it, so you don't have to sit and wait on the
-page.
-
-## Architecture
-
-| Piece | What it does |
+| File | What it's like |
 |---|---|
-| **Frontend** — React + Vite + Tailwind + Recharts | Auth, CSV/Excel upload, and the results dashboard with per-scenario charts |
-| **Backend** — FastAPI (`backend/`) | Verifies who you are, stores files, and runs the forecasting pipeline |
-| **Forecasting engine** — `backend/agents.py` | Model selection + backtesting + the three scenario forecasts (see below) |
-| **Gemini narrative layer** — `backend/llm.py` | Optional; turns the three forecasts into a plain-English summary |
-| **Notifications** — Node + Express + Nodemailer (`notifications/`) | A separate service the backend calls (best-effort, never blocks analysis) after a report finishes |
-| **Supabase** | Postgres database, auth, and file storage — the one piece Prism doesn't run itself |
+| `demo_sales.csv` | A steady B2B business. Start here: the Methodology page walks through this file. |
+| `saas_steady_growth.csv` | A fast-growing subscription business. This is the most predictable file in the set. |
+| `retail_weekly_pattern.csv` | A coffee shop chain that's busiest on weekends. Its column names don't match Prism's, and it still works. |
+| `manufacturing_decline.csv` | A supplier losing customers. Prism forecasts the decline honestly. |
+| `enterprise_lumpy_deals.csv` | A business with a few huge contracts. Prism shows a low accuracy score here because big, irregular deals are hard to predict. |
+| `startup_short_history.csv` | A startup with only six weeks of history. |
 
-The frontend only ever talks to the FastAPI backend; the backend is the
-only thing that talks to Supabase, Gemini, and the notification service.
-None of the optional pieces (Gemini, notifications) can break the core
-forecast — both fail silently and let the analysis complete regardless.
+Details on each file are in [`sample_data/README.md`](sample_data/README.md).
 
-**Hosting:** frontend on Vercel, backend (and notifications, if deployed)
-on Render — both free-tier, both auto-deploy from `main` on every push. See
-`render.yaml` and `frontend/vercel.json`.
+## Your data stays yours
+
+Every upload and report is tied to your company, and the server checks this on every request. Nobody outside your company can open your reports, even with a direct link to one.
+
+## How it's built
+
+| Piece | Built with |
+|---|---|
+| Website | React, Vite, Tailwind CSS and Recharts, hosted on Vercel |
+| Forecasting server | FastAPI with pandas, statsmodels, SciPy and scikit-learn, hosted on Render |
+| Accounts, database and file storage | Supabase |
+| Written summaries | Google Gemini (`gemini-2.5-flash`) |
+| "Report ready" emails | A small Node and Express service using Nodemailer, hosted on Render |
+
+The forecasting code is in [`backend/agents.py`](backend/agents.py). Run `pytest` in `backend/` to see it tested against real model fits.
 
 ## The technical pipeline
 
@@ -185,33 +144,54 @@ accuracy: 62.8% (MAPE 37.21%, 14-day holdout)`. Term by term:
 | `Confidence band / scenario range` | The spread between the cautious and optimistic forecasts — how uncertain the winning model is about the future, wider when your data is noisier. |
 | `Anomalies` (Isolation Forest) | Individual sales that look statistically unusual across revenue/units/day-of-week/month compared to the rest of your data — found algorithmically, not flagged by hand. |
 
-One-time setup note: the AI summary feature needs this run once in the
-Supabase SQL editor. Not required — it just gets skipped without it:
+<details>
+<summary><strong>Running Prism yourself</strong></summary>
+
+**Backend**
+
+```bash
+cd backend
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+**Frontend**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+**Notifications (optional)**
+
+```bash
+cd notifications
+npm install
+npm start
+```
+
+To deploy, use [`render.yaml`](render.yaml) for the backend and notifications, and [`frontend/vercel.json`](frontend/vercel.json) for the frontend. Both deploy automatically on every push to `main`.
+
+The AI summary needs this SQL run once in the Supabase SQL editor. Without it, Prism skips the summary and everything else still works:
 
 ```sql
 alter table reports add column if not exists ai_summary text;
 ```
 
-## Environment variables
+**Environment variables**
 
 | Service | Variable | Required | Notes |
 |---|---|---|---|
-| backend | `SUPABASE_URL`, `SUPABASE_KEY` | yes | Project Settings → API |
-| backend | `CORS_ORIGINS` | no | comma-separated, defaults to `http://localhost:5173` |
-| backend | `GEMINI_API_KEY` | no | free key at aistudio.google.com/apikey, summary is skipped without it |
-| backend | `GEMINI_MODEL` | no | defaults to `gemini-2.5-flash` |
-| backend | `NOTIFY_SERVICE_URL`, `NOTIFY_SERVICE_API_KEY` | no | notification is skipped if unreachable |
-| backend | `FRONTEND_URL` | no | used to build the link inside notification emails |
-| frontend | `VITE_API_URL` | no | defaults to `http://127.0.0.1:8000` |
-| notifications | `SMTP_HOST`/`PORT`/`USER`/`PASS`, `FROM_EMAIL` | no | unset means it uses a free Ethereal test inbox |
-| notifications | `NOTIFY_API_KEY` | no | shared secret with the backend's `NOTIFY_SERVICE_API_KEY` |
+| backend | `SUPABASE_URL`, `SUPABASE_KEY` | yes | In Supabase under Project Settings → API |
+| backend | `CORS_ORIGINS` | no | Comma-separated. Defaults to `http://localhost:5173` |
+| backend | `GEMINI_API_KEY` | no | Get a free key at aistudio.google.com/apikey. Without it, Prism skips the summary |
+| backend | `GEMINI_MODEL` | no | Defaults to `gemini-2.5-flash` |
+| backend | `NOTIFY_SERVICE_URL`, `NOTIFY_SERVICE_API_KEY` | no | If the email service can't be reached, Prism skips the email |
+| backend | `FRONTEND_URL` | no | Used to build the link in notification emails |
+| frontend | `VITE_API_URL` | no | Defaults to `http://127.0.0.1:8000` |
+| notifications | `SMTP_HOST`/`PORT`/`USER`/`PASS`, `FROM_EMAIL` | no | If these aren't set, emails go to a free Ethereal test inbox |
+| notifications | `NOTIFY_API_KEY` | no | Must match the backend's `NOTIFY_SERVICE_API_KEY` |
 
-## Security notes
-
-Every upload and report is scoped server-side to the caller's company,
-resolved from their authenticated Supabase session rather than a
-client-supplied value. Teammates within the same company can view each
-other's analyses; a report ID belonging to a different company returns a
-403. This scoping was added specifically to close an authorization gap in
-which any authenticated user could retrieve another company's report by
-supplying its ID directly.
+</details>
